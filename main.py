@@ -11,11 +11,15 @@ from src.tools.file_tools import write_file, backup_file
 
 load_dotenv()
 
+## CODE HERE WILL CHANGE
 
 # --------------------------
 # Dummy agent function for testing
 # --------------------------
 def dummy_agent(file_path: str, code: str) -> str:
+    # I will work on those as soon as the cool prompt engineer prepares the prompts we need.
+    # this should not be plain text, instead, we shall return an object with code to replace in each file.
+    #this should operate on many files not only one
     if code.startswith("# Fixed by dummy_agent"):
         return code  # already fixed
     return "# Fixed by dummy_agent\n" + code
@@ -25,6 +29,7 @@ def dummy_agent(file_path: str, code: str) -> str:
 # Self-healing loop
 # --------------------------
 def attempt_fix(file_path: str, code: str, max_iterations: int) -> bool:
+    # here, on each attempt, prompt changes based on whether we are fixing for the first time, or we are trying to fix the returned code
     for i in range(max_iterations):
         new_code = dummy_agent(file_path, code)
         backup_file(file_path)
