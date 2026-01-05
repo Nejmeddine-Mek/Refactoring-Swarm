@@ -1,11 +1,427 @@
 [
-  {
-    "id": "9e82e9b0-9b43-4a78-af43-d5d5ef848a2f",
-    "timestamp": "2025-12-26T01:26:41.177789",
-    "agent": "System",
-    "model": "unknown",
-    "action": "STARTUP",
-    "details": "Target: ./sandbox",
-    "status": "INFO"
-  }
+    {
+        "id": "9e82e9b0-9b43-4a78-af43-d5d5ef848a2f",
+        "timestamp": "2025-12-26T01:26:41.177789",
+        "agent": "System",
+        "model": "unknown",
+        "action": "STARTUP",
+        "details": "Target: ./sandbox",
+        "status": "INFO"
+    },
+    {
+        "id": "a1c57272-53de-4df8-aaa9-20b37695b144",
+        "timestamp": "2026-01-05T16:38:31.956887",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "0add6cd9-1072-48be-a306-0962bfb79c44",
+        "timestamp": "2026-01-05T16:38:31.958890",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "9d0cbfb4-bf15-4b61-9aa8-a9611d53cba5",
+        "timestamp": "2026-01-05T16:39:35.914869",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "56b38d8d-03b5-4310-bc5e-556e7b6c7ed7",
+        "timestamp": "2026-01-05T16:39:35.942380",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "371e528e-5062-4a4c-80a6-9d4298442ea9",
+        "timestamp": "2026-01-05T16:39:49.424288",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "981525d2-bcd2-49a1-8047-d0f401a71a21",
+        "timestamp": "2026-01-05T16:39:49.428289",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "c55a366b-6f80-4a6d-877a-03213c322b16",
+        "timestamp": "2026-01-05T16:42:18.190805",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "15e7cf67-1c84-49c2-9702-9c266f13af98",
+        "timestamp": "2026-01-05T16:42:19.424424",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\nÿþp\u0000r\u0000i\u0000n\u0000t\u0000(\u0000\"\u0000H\u0000e\u0000l\u0000l\u0000o\u0000 \u0000w\u0000o\u0000r\u0000l\u0000d\u0000\"\u0000)\u0000\n\u0000\n\u0000",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:1:0: E0001: Parsing failed: 'source code string cannot contain null bytes' (syntax-error)\n",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "97e1c16e-b321-4d5d-9de4-da6fa687f24f",
+        "timestamp": "2026-01-05T16:42:19.425420",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "1c66798f-9ec7-4c5f-9784-eecc3f54999f",
+        "timestamp": "2026-01-05T16:46:21.724749",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "a632a7e2-83ef-4029-89dc-b89d47cf8248",
+        "timestamp": "2026-01-05T16:46:22.871783",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\n# Fixed by dummy_agent\nÿþp\u0000r\u0000i\u0000n\u0000t\u0000(\u0000\"\u0000H\u0000e\u0000l\u0000l\u0000o\u0000 \u0000w\u0000o\u0000r\u0000l\u0000d\u0000\"\u0000)\u0000\n\u0000\n\u0000",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:1:0: E0001: Parsing failed: 'source code string cannot contain null bytes' (syntax-error)\n",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "1e35c7fb-a133-40d4-b172-9d3ace3bc0f4",
+        "timestamp": "2026-01-05T16:46:22.873783",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "7556d51d-b4a3-44da-9ee8-9ba96ee9b5da",
+        "timestamp": "2026-01-05T16:47:25.670579",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "33862625-4e71-468b-9298-0d160f45f9a9",
+        "timestamp": "2026-01-05T16:47:26.925333",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\nÿþp\u0000r\u0000i\u0000n\u0000t\u0000(\u0000\"\u0000H\u0000e\u0000l\u0000l\u0000o\u0000 \u0000w\u0000o\u0000r\u0000l\u0000d\u0000\"\u0000)\u0000\n\u0000\n\u0000",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:1:0: E0001: Parsing failed: 'source code string cannot contain null bytes' (syntax-error)\n",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "17959323-5a17-425a-821d-17d74ab384eb",
+        "timestamp": "2026-01-05T16:47:26.926333",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "09e31af7-930d-47fe-aab2-86605a930f6e",
+        "timestamp": "2026-01-05T16:47:45.266269",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "ef1c7a73-3bac-4c03-87b3-b0d078a104cf",
+        "timestamp": "2026-01-05T16:47:46.435527",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\nÿþp\u0000r\u0000i\u0000n\u0000t\u0000(\u0000\"\u0000H\u0000e\u0000l\u0000l\u0000o\u0000 \u0000w\u0000o\u0000r\u0000l\u0000d\u0000\"\u0000)\u0000\n\u0000\n\u0000",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:1:0: E0001: Parsing failed: 'source code string cannot contain null bytes' (syntax-error)\n",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "d5f3541c-b10d-4908-8672-8401a57caeba",
+        "timestamp": "2026-01-05T16:47:46.437527",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "f5f424d9-3671-4e9a-a2fd-1df9ec008e6b",
+        "timestamp": "2026-01-05T16:48:03.339964",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "752f886a-dea8-47fd-9bf8-80a6b510625a",
+        "timestamp": "2026-01-05T16:48:04.464468",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\nÿþp\u0000r\u0000i\u0000n\u0000t\u0000(\u0000\"\u0000H\u0000e\u0000l\u0000l\u0000o\u0000 \u0000w\u0000o\u0000r\u0000l\u0000d\u0000\"\u0000)\u0000\n\u0000\n\u0000",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:1:0: E0001: Parsing failed: 'source code string cannot contain null bytes' (syntax-error)\n",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "324a38c3-2f54-4eb2-bb36-37fa68712038",
+        "timestamp": "2026-01-05T16:48:04.467471",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "48b0a89a-2090-48e4-a0ad-b80ddf645c2b",
+        "timestamp": "2026-01-05T16:49:43.945154",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "1258d8c9-8f88-4f5a-97c5-a7f63c2c8107",
+        "timestamp": "2026-01-05T16:49:44.991176",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\nÿþp\u0000r\u0000i\u0000n\u0000t\u0000(\u0000\"\u0000H\u0000e\u0000l\u0000l\u0000o\u0000 \u0000w\u0000o\u0000r\u0000l\u0000d\u0000\"\u0000)\u0000\n\u0000\n\u0000",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:1:0: E0001: Parsing failed: 'source code string cannot contain null bytes' (syntax-error)\n",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "9e5d371d-f643-4c2e-8ad7-2f3c9c7e39cf",
+        "timestamp": "2026-01-05T16:49:44.992176",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "a18ed341-38da-459e-b088-5a6b389a4b75",
+        "timestamp": "2026-01-05T16:50:07.454494",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "972e32cb-b211-4dcd-9ce4-b8e84a7d12f2",
+        "timestamp": "2026-01-05T16:50:08.596394",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\n# Fixed by dummy_agent\nÿþp\u0000r\u0000i\u0000n\u0000t\u0000(\u0000\"\u0000H\u0000e\u0000l\u0000l\u0000o\u0000 \u0000w\u0000o\u0000r\u0000l\u0000d\u0000\"\u0000)\u0000\n\u0000\n\u0000",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:1:0: E0001: Parsing failed: 'source code string cannot contain null bytes' (syntax-error)\n",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "f7ccaf06-118a-40b8-8a07-841459810d47",
+        "timestamp": "2026-01-05T16:50:08.598394",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "4d10cca9-2fc9-4141-bc4c-ca01894ef554",
+        "timestamp": "2026-01-05T16:51:28.160364",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "260cb2b9-3b71-4094-b827-7ac7bea1cf41",
+        "timestamp": "2026-01-05T16:51:28.163363",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "2fce31dc-a7fb-4777-bbbc-ed23c084e967",
+        "timestamp": "2026-01-05T16:52:13.830085",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System startup",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    },
+    {
+        "id": "cdeefeb0-bc48-4432-98f4-54c1aa1009ed",
+        "timestamp": "2026-01-05T16:52:15.059579",
+        "agent": "DummyAgent",
+        "model": "test",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\\sandbox\\test_main\\sample.py",
+            "iteration": 1,
+            "input_prompt": "Simulated agent prompt",
+            "output_response": "# Fixed by dummy_agent\nprint(\"Hello, World!\")",
+            "pylint_output": "************* Module sample\nsandbox\\test_main\\sample.py:2:0: C0304: Final newline missing (missing-final-newline)\nsandbox\\test_main\\sample.py:1:0: C0114: Missing module docstring (missing-module-docst",
+            "pytest_output": "============================= test session starts =============================\nplatform win32 -- Python 3.10.9, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\pc\\Desktop\\IGLTP\\Refactoring-Swarm\nplugins"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "58d9db0c-6b3c-48a4-b1fc-eb3ae9561b9f",
+        "timestamp": "2026-01-05T16:52:15.061577",
+        "agent": "System",
+        "model": "unknown",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "System shutdown",
+            "output_response": "Target directory: sandbox/test_main"
+        },
+        "status": "INFO"
+    }
 ]

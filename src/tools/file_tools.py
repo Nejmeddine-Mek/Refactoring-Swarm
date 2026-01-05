@@ -20,16 +20,15 @@ def list_python_files(target_dir: str) -> list[str]:
     return files
 
 
-def read_file(path: str) -> str:
-    """
-    Read a file content using UTF-8.
-    """
-    file_path = Path(path)
-
-    if not file_path.exists():
-        raise FileNotFoundError(f"File not found: {path}")
-
-    return file_path.read_text(encoding="utf-8")
+def read_file(file_path):
+    encodings = ["utf-8", "utf-8-sig", "latin1"]
+    for enc in encodings:
+        try:
+            with open(file_path, "r", encoding=enc) as f:
+                return f.read()
+        except Exception:
+            continue
+    raise ValueError(f"Cannot read file {file_path} with supported encodings")
 
 
 def backup_file(path: str) -> None:

@@ -1,0 +1,161 @@
+===========================================
+Refactoring Swarm – Toolsmith Documentation
+===========================================
+
+Role: Toolsmith
+Purpose: Explain all implemented tools, helpers, and workflows for teammates.
+
+-------------------------------------------
+1️⃣ Overview
+-------------------------------------------
+As the Toolsmith, I implemented:
+
+- File handling (read/write/backup) with encoding support
+- CLI tools to prepare Python files for agents
+- Helpers to run pylint & pytest for analysis
+- Self-healing loop simulation (dummy agent)
+- Logging & sandbox safety
+
+Key principles:
+
+- All operations confined to sandbox
+- File size limits enforced
+- Backup before modification
+- Logs fully structured for experiment tracking
+
+-------------------------------------------
+2️⃣ File Structure
+-------------------------------------------
+/src
+ ├── tools
+ │    ├── file_tools.py       # File read/write/backup
+ │    ├── cli_tools.py        # CLI args, payload preparation
+ │    └── analysis_tools.py   # Wrappers for pylint & pytest
+ └── utils
+      └── logger.py           # Logging system (experiment tracking)
+
+/sandbox          # Folder for temporary testing & safe modifications
+/main.py          # Orchestrator using all Toolsmith tools
+
+-------------------------------------------
+3️⃣ Key Functions
+-------------------------------------------
+
+📄 File Tools
+-------------
+- read_file(file_path) → returns file content
+- write_file(file_path, content) → writes content safely
+- backup_file(file_path) → creates backup before changes
+
+📄 CLI Tools
+------------
+- parse_args() → handles CLI arguments
+- prepare_payloads(target_dir, max_file_size) → reads all Python files, skips large files
+
+📄 Analysis Tools
+-----------------
+- run_pylint(file_path) → lints a Python file
+- run_pytest(dir_path) → runs pytest on directory
+
+📄 Dummy Agent
+---------------
+- dummy_agent(file_path, code) → simulates agent changes
+  Example output:
+  # Fixed by dummy_agent
+  <original code>
+
+📄 Self-Healing Loop
+--------------------
+- attempt_fix(file_path, code, max_iterations)
+  - Iteratively applies dummy_agent
+  - Runs pylint & pytest
+  - Logs each iteration
+  - Stops if tests pass
+
+-------------------------------------------
+4️⃣ Logging Integration
+-------------------------------------------
+All actions logged via log_experiment:
+
+Required fields: agent_name, model_used, action, details, status
+
+details must include:
+- input_prompt
+- output_response
+
+Example:
+
+log_experiment(
+    "DummyAgent",
+    "test",
+    ActionType.ANALYSIS,
+    {
+        "file": "sandbox/sample.py",
+        "iteration": 1,
+        "input_prompt": "Simulated agent prompt",
+        "output_response": new_code
+    },
+    "SUCCESS"
+)
+
+-------------------------------------------
+5️⃣ Sandbox & Safety
+-------------------------------------------
+- All write operations restricted to sandbox folder
+- Skips files exceeding max_file_size
+- Multiple encoding support (UTF-8, UTF-8-SIG, Latin1)
+- Backups made before changes
+
+-------------------------------------------
+6️⃣ How to Test
+-------------------------------------------
+1. Activate virtual environment:
+   Windows:
+      .\venv\Scripts\activate
+   Mac/Linux:
+      source venv/bin/activate
+   Install dependencies:
+      pip install -r requirements.txt
+
+2. Prepare sandbox with Python files:
+   sandbox/test_main/sample.py
+
+3. Run main:
+   python main.py --target_dir "sandbox/test_main" --max_iterations 3 --max_file_size 1000000
+
+4. Expected results:
+   - File read correctly
+   - Dummy agent prepends comment
+   - Logs created in logs/experiment_data.json
+   - Self-healing loop executes iterations
+
+-------------------------------------------
+7️⃣ Quick Flow Diagram
+-------------------------------------------
+Python files → prepare_payloads() → sandbox-safe code list
+       ↓
+   For each file:
+       ↓
+   attempt_fix()
+       ↓
+   dummy_agent applied → write_file() → backup_file()
+       ↓
+   run_pylint() & run_pytest()
+       ↓
+   log_experiment()
+       ↓
+   ✅ Success or ❌ Retry
+       ↓
+   Repeat max_iterations
+
+-------------------------------------------
+8️⃣ Notes for Teammates
+-------------------------------------------
+- Prompt Engineer: Use payloads for LLM prompts
+- Orchestrator: Use attempt_fix() for self-healing loop
+- Data Manager: Check experiment_data.json for logs
+- Toolsmith caution: Do not rename functions without notifying team
+
+-------------------------------------------
+✅ Status: Toolsmith work complete
+-------------------------------------------
