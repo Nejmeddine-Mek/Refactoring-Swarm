@@ -8,8 +8,10 @@ from src.utils.logger import log_experiment, ActionType
 from src.tools.cli_tools import parse_args, prepare_payloads
 from src.tools.analysis_tools import run_pylint, run_pytest
 from src.tools.file_tools import write_file, backup_file
+# we should remove ipynb later
+extensions_set = {".py", ".ipynb"}
 
-load_dotenv()
+# load_dotenv()
 
 ## CODE HERE WILL CHANGE
 
@@ -66,11 +68,62 @@ def attempt_fix(file_path: str, code: str, max_iterations: int) -> bool:
 # Main
 # --------------------------
 def main():
+    global MAX_SIZE, MAX_ITERATIONS
+    MAX_SIZE = 50 * 1024 # default maximum size of a file
+    MAX_ITERATIONS = 5 # default maximum number of iterations
+    file_names_list = []
+    
     args = parse_args()
-
-    if not os.path.exists(args.target_dir):
-        print(f"❌ Dossier {args.target_dir} introuvable.")
+    ignore_files = args.ignore
+    if bool(args.dir) == bool(args.file):
+        print("You must exclusively specify a directory or a file")
         sys.exit(1)
+    # here we have a path crossing, if we have a dir, we shall read all files after locating the dir
+    # if we have a file, we read one single file, and then the processing remains the same
+    if bool(args.max_iterations):
+        MAX_ITERATIONS = args.max_iterations
+    if bool(args.max_size):
+        MAX_SIZE = args.max_size
+    # now, we did set the maximum values, we must then start reading the files we need
+    # the case where we only have one file
+    # the way I think we shall do this is as follows:
+        # 1 - locate the file(s)
+        # 2 - verify extensions to be .py
+        # 3 - store file names in a list of file names of length >= 1
+        # 4 - do the rest of the work ordinarily
+    # get files to ignore if they exist
+    
+    if bool(args.file):
+        if not os.path.exists(args.file):
+            print(f"❌ File {args.file} is not found.")
+            sys.exit(1)
+        # now the file is found
+        file_names_list.append(args.file)
+
+    # now we check the case of the directory
+    elif bool(args.dir):
+        if not os.path.exists(args.dir):
+            print(f"❌ File {args.dir} is not found.")
+            sys.exit(1)
+
+        # the directory exists, we need to get all file names ending in .py
+        dir_path = Path(args.dir)
+        for f in dir_path.iterdir():
+
+            # check if the files is not in the whitelist, is of appropriate type. 
+            if not f.is_file():
+                continue
+            if f.suffix.lower() not in extensions_set:
+                continue
+            if f.name in ignore_files:
+                continue
+
+            if f.stat().st_size > MAX_SIZE:
+                print(f"{f} is too big")
+                sys.exit(2)
+
+            print(f"{f} is a python file")
+        # now, all the files should be grouped in the file_names_list. we can proceed    
 
     print(f"🚀 DEMARRAGE SUR : {args.target_dir}")
 
@@ -85,7 +138,8 @@ def main():
         },
         "INFO"
     )
-
+    
+"""
     # Prepare payloads (sandbox-safe + size check)
     payloads = prepare_payloads(args.target_dir, max_file_size=args.max_file_size)
     print(f"📂 {len(payloads)} fichiers préparés pour l'agent.")
@@ -120,7 +174,7 @@ def main():
             "output_response": f"Target directory: {args.target_dir}"
         },
         "INFO"
-    )
+    )"""
 
 
 if __name__ == "__main__":

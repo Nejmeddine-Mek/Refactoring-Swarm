@@ -5,5 +5,5 @@ langgraph==0.0.25
 pylint==3.0.3
 pytest==7.4.4
 python-dotenv==1.0.1
-pandas==2.2.0
+# pandas==2.2.0
 colorama==0.4.6

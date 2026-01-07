@@ -7,9 +7,11 @@ from src.tools.file_tools import list_python_files, read_file, ensure_in_sandbox
 # -----------------------
 def parse_args():
     parser = argparse.ArgumentParser(description="Refactoring Swarm CLI")
-    parser.add_argument("--target_dir", type=str, required=True, help="Folder with buggy code")
-    parser.add_argument("--max_iterations", type=int, default=5, help="Max retry attempts per file")
-    parser.add_argument("--max_file_size", type=int, default=100_000, help="Max file size in bytes")
+    parser.add_argument("--file", type=str, help="configure the path to the file you want to fix")
+    parser.add_argument("--dir", type=str, help="Configure the path to the directory that contains the files you want to fix")
+    parser.add_argument("--max_iterations", type=int, help="configure the maximum number of iterations to do if the first fix fails")
+    parser.add_argument("--max_size", type=int, help="Max file size in bytes")
+    parser.add_argument("--ignore", nargs="*", default=[], help="Specify files or folders you want to ignore when extracting contents fo files, in case of --file, this argument is ignored")
     return parser.parse_args()
 
 
