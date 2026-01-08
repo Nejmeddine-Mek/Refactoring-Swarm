@@ -14,7 +14,7 @@ def _run_command(command: list[str], cwd: str | None = None) -> str:
             cwd=cwd,
             capture_output=True,
             text=True,
-            timeout=20  # prevent infinite loops
+            timeout=20  
         )
         return result.stdout + result.stderr
     except subprocess.TimeoutExpired:

@@ -75,6 +75,7 @@ def main():
     
     args = parse_args()
     ignore_files = args.ignore
+    
     if bool(args.dir) == bool(args.file):
         print("You must exclusively specify a directory or a file")
         sys.exit(1)
@@ -125,7 +126,7 @@ def main():
             print(f"{f} is a python file")
         # now, all the files should be grouped in the file_names_list. we can proceed    
 
-    print(f"🚀 DEMARRAGE SUR : {args.target_dir}")
+    print(f"🚀 DEMARRAGE SUR : {args.file}")
 
     # Log startup
     log_experiment(
@@ -134,7 +135,7 @@ def main():
         ActionType.ANALYSIS,
         {
             "input_prompt": "System startup",
-            "output_response": f"Target directory: {args.target_dir}"
+            "output_response": f"Target directory: {args.file}"
         },
         "INFO"
     )
