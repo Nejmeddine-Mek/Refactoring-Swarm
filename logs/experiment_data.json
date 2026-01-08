@@ -1084,5 +1084,870 @@
             }
         },
         "status": "SUCCESS"
+    },
+    {
+        "id": "44360522-f8a5-4d08-abc5-660f6df0ae3c",
+        "timestamp": "2026-01-08T15:55:02.014165",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "```json\n{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All pytest tests passed and pylint reported no critical errors.\",\n  \"suggested_fix\": \"\"\n}\n```"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "75e70e7a-f497-4f62-85ef-b761866dabd4",
+        "timestamp": "2026-01-08T15:55:03.363621",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "```json\n{\n  \"decision\": \"RETRY\",\n  \"reason\": \"One or more tests failed, indicating a functional issue with the refactored code.\",\n  \"suggested_fix\": \"Investigate and fix the failing test case. Ensure all tests pass after refactoring.\"\n}\n```"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "3f6a362c-6fb9-47dc-9720-4ad5be5c87c1",
+        "timestamp": "2026-01-08T15:55:05.836198",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "```json\n{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest passed with no failures, but Pylint reported 1 critical error, which violates the success criteria.\",\n  \"suggested_fix\": \"Identify and correct the critical Pylint error to ensure code quality standards are met.\"\n}\n```"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "2fb8bf5d-1dd7-49f5-9823-a619bc5df816",
+        "timestamp": "2026-01-08T15:55:07.999787",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "```json\n{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Not all tests passed (2 failed) and critical lint errors were detected (2 critical errors).\",\n  \"suggested_fix\": \"Address the 2 failing tests and resolve the 2 critical Pylint errors.\"\n}\n```"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "74a3408f-8972-44e0-91cb-6b9dcd39726f",
+        "timestamp": "2026-01-08T15:56:32.992149",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "```json\n{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All pytest tests passed and pylint reported no critical errors.\",\n  \"suggested_fix\": null\n}\n```"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "e75ccd34-12a4-4b65-95df-7671753546cc",
+        "timestamp": "2026-01-08T15:56:34.809342",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "```json\n{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 1 test failure.\",\n  \"suggested_fix\": \"Examine the failing test cases and modify the code to ensure all tests pass successfully.\"\n}\n```"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "0d9bc416-1c5e-410d-b5e4-66c63d7682cf",
+        "timestamp": "2026-01-08T15:56:34.952175",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 25.019245815s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 25\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "f2cdb407-8b6a-4db9-bba2-0122d634b186",
+        "timestamp": "2026-01-08T15:56:35.086719",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 24.870176998s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 24\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "46b11f32-fa28-4283-8ecf-16a9a025a559",
+        "timestamp": "2026-01-08T16:02:49.344139",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All pytest tests passed (3 passed, 0 failed) and pylint reported no critical errors.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All pytest tests passed (3 passed, 0 failed) and pylint reported no critical errors.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "cbb4e3e3-2b7e-4b9c-89eb-650f70a17300",
+        "timestamp": "2026-01-08T16:02:51.038715",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest reported 1 failed test. All tests must pass for a successful refactoring.",
+                "suggested_fix": "Investigate and fix the failing test. Ensure all tests pass after the refactoring.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 1 failed test. All tests must pass for a successful refactoring.\",\n  \"suggested_fix\": \"Investigate and fix the failing test. Ensure all tests pass after the refactoring.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "92e0a6a1-4e41-4978-8f08-d7de9530af20",
+        "timestamp": "2026-01-08T16:02:52.880863",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pylint reported 1 critical error, indicating a quality or potential correctness issue that needs to be addressed.",
+                "suggested_fix": "Fix the reported critical pylint error(s).",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pylint reported 1 critical error, indicating a quality or potential correctness issue that needs to be addressed.\",\n  \"suggested_fix\": \"Fix the reported critical pylint error(s).\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "73373c1d-edce-4f8e-a2b9-fc20b54fb572",
+        "timestamp": "2026-01-08T16:02:54.192679",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Tests failed (2 failures) and critical lint errors were detected (2 critical errors).",
+                "suggested_fix": "Fix the 2 failed tests and resolve the 2 critical pylint errors.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Tests failed (2 failures) and critical lint errors were detected (2 critical errors).\",\n  \"suggested_fix\": \"Fix the 2 failed tests and resolve the 2 critical pylint errors.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "b9828366-f2d4-4116-bb9c-d8fb7e6ed98b",
+        "timestamp": "2026-01-08T16:04:19.546467",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical Pylint errors were detected.",
+                "suggested_fix": null,
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical Pylint errors were detected.\",\n  \"suggested_fix\": null\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "842ce3cf-64f3-49cb-94a0-94002f17edd5",
+        "timestamp": "2026-01-08T16:04:21.238980",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "One or more tests are failing according to the pytest output.",
+                "suggested_fix": "Examine the failing test(s) indicated by pytest and correct the underlying code issue that causes them to fail. Ensure all tests pass before proceeding.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"One or more tests are failing according to the pytest output.\",\n  \"suggested_fix\": \"Examine the failing test(s) indicated by pytest and correct the underlying code issue that causes them to fail. Ensure all tests pass before proceeding.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "4750a184-f886-4b5c-8106-429fb42403f9",
+        "timestamp": "2026-01-08T16:04:24.917788",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest reported 2 failures and Pylint found 1 critical error.",
+                "suggested_fix": "Fix the failing tests and address the critical Pylint error.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 2 failures and Pylint found 1 critical error.\",\n  \"suggested_fix\": \"Fix the failing tests and address the critical Pylint error.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "7f116112-f24e-49c6-8ba1-139d7855910f",
+        "timestamp": "2026-01-08T16:04:26.596244",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Tests failed (5 failures) and 3 critical pylint errors were found. Both conditions for success (all tests pass and no critical lint errors) were not met.",
+                "suggested_fix": "Fix the failing tests to ensure all 5 tests pass, and address the 3 critical pylint errors.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Tests failed (5 failures) and 3 critical pylint errors were found. Both conditions for success (all tests pass and no critical lint errors) were not met.\",\n  \"suggested_fix\": \"Fix the failing tests to ensure all 5 tests pass, and address the 3 critical pylint errors.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "4980ae11-7a0f-4a5f-9d76-185a03cd43c3",
+        "timestamp": "2026-01-08T16:04:26.722032",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 33.245604005s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 33\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "291c7175-6e38-492d-a343-a32fe51ac75f",
+        "timestamp": "2026-01-08T16:04:26.856149",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 33.100190644s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 33\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "3d19976e-047c-4611-b6ce-a4f3c0cc60a5",
+        "timestamp": "2026-01-08T16:04:26.998346",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 32.962362113s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 32\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "34b0a62d-ce44-4e58-b3d2-e21695dc51c4",
+        "timestamp": "2026-01-08T16:04:27.249362",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 32.813316178s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 32\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "7176e88f-cc35-4f91-a53e-2ff3d9b2468f",
+        "timestamp": "2026-01-08T16:04:27.391161",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 32.568648709s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 32\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "64be49dd-84d9-48d9-8fe2-66b6cb908d77",
+        "timestamp": "2026-01-08T16:04:27.543002",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Could not parse LLM output",
+                "suggested_fix": "Check pytest and pylint outputs",
+                "llm_feedback": "[LLM unavailable] 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 32.425952304s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 5\n}\n, retry_delay {\n  seconds: 32\n}\n]"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "1fe1bcab-f211-45db-8da7-b6fd55a78f5f",
+        "timestamp": "2026-01-08T16:07:49.758707",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical Pylint errors were detected.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical Pylint errors were detected.\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "43f60097-684f-4ed6-9378-891aab767a4f",
+        "timestamp": "2026-01-08T16:07:52.031682",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest reported 1 failed test. For a successful outcome, all tests must pass.",
+                "suggested_fix": "Address the failing test(s) identified by pytest to ensure a 100% test pass rate.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 1 failed test. For a successful outcome, all tests must pass.\",\n  \"suggested_fix\": \"Address the failing test(s) identified by pytest to ensure a 100% test pass rate.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "1e4ad4f6-acb4-494b-a7db-55070cdc1190",
+        "timestamp": "2026-01-08T16:07:54.169417",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest reported 2 failed tests and Pylint found 1 critical error.",
+                "suggested_fix": "Fix the failing tests and resolve the critical Pylint error.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 2 failed tests and Pylint found 1 critical error.\",\n  \"suggested_fix\": \"Fix the failing tests and resolve the critical Pylint error.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "99615d62-f877-4b89-a9ee-ac3d3cd41f99",
+        "timestamp": "2026-01-08T16:07:56.300297",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Tests are failing (0 passed, 5 failed) and critical lint errors were found (3 critical errors). Both conditions must be met for success.",
+                "suggested_fix": "Focus on fixing the failing tests and resolving the 3 critical Pylint errors.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Tests are failing (0 passed, 5 failed) and critical lint errors were found (3 critical errors). Both conditions must be met for success.\",\n  \"suggested_fix\": \"Focus on fixing the failing tests and resolving the 3 critical Pylint errors.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "dddc4cdb-4306-459e-ae33-f128f536610c",
+        "timestamp": "2026-01-08T16:07:58.687786",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest indicates all tests passed, but Pylint reported 1 critical error. Success requires both passing tests and no critical lint errors.",
+                "suggested_fix": "Investigate and resolve the critical Pylint error to ensure code quality standards are met.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest indicates all tests passed, but Pylint reported 1 critical error. Success requires both passing tests and no critical lint errors.\",\n  \"suggested_fix\": \"Investigate and resolve the critical Pylint error to ensure code quality standards are met.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "aafae82f-989d-40e1-9481-1cd86b0eebee",
+        "timestamp": "2026-01-08T16:08:01.635076",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All pytest tests passed (6 passed, 0 failed) and Pylint reported no critical errors.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All pytest tests passed (6 passed, 0 failed) and Pylint reported no critical errors.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "067aa594-2cf9-46f0-b623-0aa1d8fe1ee1",
+        "timestamp": "2026-01-08T16:09:18.272327",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical pylint errors were detected.",
+                "suggested_fix": null,
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical pylint errors were detected.\",\n  \"suggested_fix\": null\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "640ee6f6-0858-47a4-aa3b-d7392427b4fc",
+        "timestamp": "2026-01-08T16:09:21.277852",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "One or more tests failed according to pytest output.",
+                "suggested_fix": "Address the failing test(s) to ensure all tests pass.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"One or more tests failed according to pytest output.\",\n  \"suggested_fix\": \"Address the failing test(s) to ensure all tests pass.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "59158f72-ec25-4dcb-bece-fe32d4dc57e9",
+        "timestamp": "2026-01-08T16:09:24.604329",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest reported 2 failures, and Pylint found 1 critical error. Both must be resolved for a successful refactoring.",
+                "suggested_fix": "Fix the 2 failing tests and resolve the 1 critical Pylint error.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 2 failures, and Pylint found 1 critical error. Both must be resolved for a successful refactoring.\",\n  \"suggested_fix\": \"Fix the 2 failing tests and resolve the 1 critical Pylint error.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "3d767786-ada8-4625-bd0b-d5efdfea9894",
+        "timestamp": "2026-01-08T16:09:25.902515",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Tests failed (5 failures) and 3 critical pylint errors were found.",
+                "suggested_fix": "Fix the failing tests and resolve all critical pylint errors.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Tests failed (5 failures) and 3 critical pylint errors were found.\",\n  \"suggested_fix\": \"Fix the failing tests and resolve all critical pylint errors.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "4f19aeed-c104-4b50-9680-b54bc92fbd9f",
+        "timestamp": "2026-01-08T16:09:27.267417",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Tests passed successfully, but 1 critical pylint error was found. Both conditions must be met for a successful outcome.",
+                "suggested_fix": "Review and correct the 1 critical error reported by pylint.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Tests passed successfully, but 1 critical pylint error was found. Both conditions must be met for a successful outcome.\",\n  \"suggested_fix\": \"Review and correct the 1 critical error reported by pylint.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "e0089a68-102e-4143-9bcd-3c7319184bbc",
+        "timestamp": "2026-01-08T16:09:59.752228",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical Pylint errors were detected.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical Pylint errors were detected.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "a0ef5975-4d29-4dc0-b22d-69e2acc38891",
+        "timestamp": "2026-01-08T16:10:01.442282",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical Pylint errors were detected.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical Pylint errors were detected.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "50f513a7-2db2-4525-9f51-0553e998f158",
+        "timestamp": "2026-01-08T16:10:03.622149",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "One or more tests failed.",
+                "suggested_fix": "Address the failing test(s) indicated by the pytest output to ensure all tests pass successfully.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"One or more tests failed.\",\n  \"suggested_fix\": \"Address the failing test(s) indicated by the pytest output to ensure all tests pass successfully.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "bedd98eb-b36a-4426-b6c8-7fcd63e23551",
+        "timestamp": "2026-01-08T16:10:05.319086",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "One or more tests failed.",
+                "suggested_fix": "Address the failing test(s) to ensure all tests pass.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"One or more tests failed.\",\n  \"suggested_fix\": \"Address the failing test(s) to ensure all tests pass.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "bad420be-2e4a-407e-8e80-4a9158c0d460",
+        "timestamp": "2026-01-08T16:11:35.597430",
+        "agent": "AuditorAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "agent": "AuditorAgent",
+                "file": "sandbox/fake_file.py",
+                "status": "PASS",
+                "issues": [],
+                "suggestions": [],
+                "llm_feedback": "```json\n{\n  \"summary\": \"The provided Python code contains a critical syntax error that prevents it from running, and a severe type inconsistency between its function signature and implementation, which leads to incorrect behavior.\",\n  \"issues\": [\n    {\n      \"file\": \"main.py\",\n      \"type\": \"BUG\",\n      \"description\": \"Missing a colon character `:` at the end of the function definition line `def greet(a: int, b: str) -> int`. This causes a `SyntaxError`, preventing the code from being parsed and executed.\",\n      \"severity\": \"HIGH\"\n    },\n    {\n      \"file\": \"main.py\",\n      \"type\": \"BUG\",\n      \"description\": \"The function `greet` is type-hinted to return an `int` (`-> int`), but the operation `return a * b` where `a` is an `int` and `b` is a `str` performs string repetition (e.g., `3 * 'x'` results in `'xxx'`), which produces a `str`. This creates a type mismatch, leading to incorrect behavior and a potential `TypeError` if the caller attempts to use the return value as an integer.\",\n      \"severity\": \"HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"main.py\",\n      \"actions\": [\n        \"Add the missing colon character `:` at the end of the function definition line `def greet(a: int, b: str) -> int`.\",\n        \"Correct the return type hint from `int` to `str` to accurately reflect the actual return type of the operation `a * b` (string repetition). Additionally, review the function's name and its current implementation to ensure they align with the intended business logic, as 'greet' typically implies a different functionality than string repetition.\"\n      ]\n    }\n  ]\n}\n```"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "dc52feba-bef6-434e-b797-1e6faf773a06",
+        "timestamp": "2026-01-08T16:12:12.992955",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical Pylint errors were detected.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical Pylint errors were detected.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "f5445508-fe14-4733-888e-ada78e3a5650",
+        "timestamp": "2026-01-08T16:12:14.415655",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------\n\n ONLY RETURN VALID JSON, DO NOT ADD ANY EXTRA TEXT OR EXPLANATIONS.\nYour JSON must use double quotes for all keys and string values.\n",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All pytest tests passed (3 passed, 0 failed) and pylint detected no critical errors.",
+                "suggested_fix": "N/A",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All pytest tests passed (3 passed, 0 failed) and pylint detected no critical errors.\",\n  \"suggested_fix\": \"N/A\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "a7844a9d-d2f8-4a14-a512-a09adce271ac",
+        "timestamp": "2026-01-08T16:22:10.720473",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed (6 passed, 0 failed) and no critical Pylint errors were detected.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed (6 passed, 0 failed) and no critical Pylint errors were detected.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "a9bb805e-301d-4625-8200-06643e5dace8",
+        "timestamp": "2026-01-08T16:22:15.923067",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical lint errors were detected by Pylint.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical lint errors were detected by Pylint.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "78e8dbe4-d69d-4cfe-a5b8-865701d80b2a",
+        "timestamp": "2026-01-08T16:22:18.663437",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Tests failed: 1 test failed.",
+                "suggested_fix": "The refactored code introduced a regression, causing one test to fail. The agent should review the failed test and fix the underlying issue in the refactored code.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Tests failed: 1 test failed.\",\n  \"suggested_fix\": \"The refactored code introduced a regression, causing one test to fail. The agent should review the failed test and fix the underlying issue in the refactored code.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "b5ff7574-fd9b-4f7c-95d5-ee70cf17f03d",
+        "timestamp": "2026-01-08T16:22:21.004933",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest reported 1 failed test, indicating that not all tests passed.",
+                "suggested_fix": "Examine the test failures and correct the implementation to ensure all tests pass.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 1 failed test, indicating that not all tests passed.\",\n  \"suggested_fix\": \"Examine the test failures and correct the implementation to ensure all tests pass.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "3a9a4ef3-d35c-4504-96a2-9982d01527cf",
+        "timestamp": "2026-01-08T16:29:26.855869",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All tests passed and no critical Pylint errors were detected.",
+                "suggested_fix": "",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All tests passed and no critical Pylint errors were detected.\",\n  \"suggested_fix\": \"\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "437f1628-7ae4-446f-80f2-061de945eb25",
+        "timestamp": "2026-01-08T16:29:29.434419",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "SUCCESS",
+                "reason": "All pytest tests passed (3 passed, 0 failed) and no critical Pylint errors were detected.",
+                "suggested_fix": "None needed.",
+                "llm_feedback": "{\n  \"decision\": \"SUCCESS\",\n  \"reason\": \"All pytest tests passed (3 passed, 0 failed) and no critical Pylint errors were detected.\",\n  \"suggested_fix\": \"None needed.\"\n}"
+            }
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "5e378ebd-30cd-4ca4-ae4c-5df300abdd38",
+        "timestamp": "2026-01-08T16:29:30.942103",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest passed successfully, but Pylint reported critical errors.",
+                "suggested_fix": "Address the critical lint error(s) detected by Pylint.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest passed successfully, but Pylint reported critical errors.\",\n  \"suggested_fix\": \"Address the critical lint error(s) detected by Pylint.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "9caa214f-5b3a-4d98-904f-62bd90f23b08",
+        "timestamp": "2026-01-08T16:29:32.377601",
+        "agent": "JudgeAgent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Pytest reported 1 test failed. All tests must pass for a successful refactoring.",
+                "suggested_fix": "Review the failing test case(s) and make necessary code corrections to ensure all tests pass.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Pytest reported 1 test failed. All tests must pass for a successful refactoring.\",\n  \"suggested_fix\": \"Review the failing test case(s) and make necessary code corrections to ensure all tests pass.\"\n}"
+            }
+        },
+        "status": "REVIEW"
     }
 ]
