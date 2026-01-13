@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from dotenv import load_dotenv
 from src.utils.logger import log_experiment, ActionType
-
+from src.depgraph.depgraph import createDepGraph
 # Toolsmith helpers
 from src.tools.cli_tools import parse_args, prepare_payloads
 from src.tools.analysis_tools import run_pylint, run_pytest
@@ -75,7 +75,6 @@ def main():
     
     args = parse_args()
     ignore_files = args.ignore
-    
     if bool(args.dir) == bool(args.file):
         print("You must exclusively specify a directory or a file")
         sys.exit(1)
@@ -109,38 +108,47 @@ def main():
 
         # the directory exists, we need to get all file names ending in .py
         dir_path = Path(args.dir)
-        for f in dir_path.iterdir():
+        # this should work recursively, when you get a directory, you get the subfiles too
+        for root, dirs, files in os.walk(dir_path):
 
+            dirs[:] = [d for d in dirs if d not in ignore_files]
             # check if the files is not in the whitelist, is of appropriate type. 
-            if not f.is_file():
-                continue
-            if f.suffix.lower() not in extensions_set:
-                continue
-            if f.name in ignore_files:
-                continue
-
-            if f.stat().st_size > MAX_SIZE:
-                print(f"{f} is too big")
-                sys.exit(2)
-
-            print(f"{f} is a python file")
+            for name in files:
+                f = Path(root) / name
+                # we keep this as security measure
+                if not f.is_file():
+                    continue
+                if f.name in ignore_files:
+                    continue
+                if f.suffix.lower() not in extensions_set:
+                    continue
+                print(f, f.name)
+                if f.stat().st_size > MAX_SIZE:
+                    print(f"{f} is too big")
+                    sys.exit(2)
+                # add the file name (using f itself gives us directly the path, not only the name)
+                file_names_list.append(f)
+        #print(f"{f} is a python file")
+        #print(file_names_list)
         # now, all the files should be grouped in the file_names_list. we can proceed    
-
-    print(f"🚀 DEMARRAGE SUR : {args.file}")
+    #print(f"🚀 DEMARRAGE SUR : {args.dir}")
+    
+    graph = createDepGraph(file_names_list)
 
     # Log startup
+"""
     log_experiment(
         "System",
         "unknown",
         ActionType.ANALYSIS,
         {
             "input_prompt": "System startup",
-            "output_response": f"Target directory: {args.file}"
+            "output_response": f"Target directory: {args.target_dir}"
         },
         "INFO"
     )
     
-"""
+
     # Prepare payloads (sandbox-safe + size check)
     payloads = prepare_payloads(args.target_dir, max_file_size=args.max_file_size)
     print(f"📂 {len(payloads)} fichiers préparés pour l'agent.")
