@@ -13,7 +13,8 @@ class ActionType(str, Enum):
     """
     ANALYSIS = "CODE_ANALYSIS"  # Audit, lecture, recherche de bugs
     GENERATION = "CODE_GEN"     # Création de nouveau code/tests/docs
-    DEBUG = "DEBUG"             # Analyse d'erreurs d'exécution
+    DEBUG = "DEBUG"     
+    VALIDATION  = "VALIDATION" # Analyse d'erreurs d'exécution
     FIX = "FIX"                 # Application de correctifs
 
 def log_experiment(agent_name: str, model_used: str, action: ActionType, details: dict, status: str):

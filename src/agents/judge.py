@@ -10,13 +10,6 @@ import re
 load_dotenv()
 
 class JudgeAgent:
-    """
-    Judge Agent
-    -----------
-    Evaluates test results and lint outputs.
-    Decides whether the system should STOP (SUCCESS) or RETRY.
-    """
-
     def __init__(self, prompt_path: str):
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
@@ -27,15 +20,28 @@ class JudgeAgent:
             raise EnvironmentError("❌ GOOGLE_API_KEY not found in .env")
 
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel("gemini-2.5-flash")
+        self.model = genai.GenerativeModel(os.getenv("GOOGLE_MODEL"))
 
     def _parse_llm_json(self, llm_text: str) -> dict:
         import json, re
+    
+        # Try direct JSON first
         try:
-            # keep only the JSON part
-            cleaned = re.search(r'\{.*\}', llm_text, re.DOTALL).group(0)
-            # Replace single quotes with double quotes
-            cleaned = cleaned.replace("'", '"')
+            return json.loads(llm_text)
+        except Exception:
+            pass
+    
+        # Try to extract JSON block
+        try:
+            match = re.search(r'\{[\s\S]*\}', llm_text)
+            if not match:
+                raise ValueError("No JSON found")
+    
+            cleaned = match.group(0)
+    
+            # Remove smart quotes if any
+            cleaned = cleaned.replace("“", '"').replace("”", '"')
+    
             return json.loads(cleaned)
         except Exception:
             return {
@@ -43,7 +49,7 @@ class JudgeAgent:
                 "reason": "Could not parse LLM output",
                 "suggested_fix": "Check pytest and pylint outputs"
             }
-
+    
     # --------------------------
     # Prompt loader
     # --------------------------

@@ -7,14 +7,6 @@ from src.utils.logger import log_experiment, ActionType
 load_dotenv()
 
 class AuditorAgent:
-    """
-    Auditor Agent
-    -------------
-    Reviews code using:
-    - rule-based security checks
-    - LLM analysis (Gemini)
-    """
-
     def __init__(self, prompt_path: str):
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
@@ -25,7 +17,7 @@ class AuditorAgent:
             raise EnvironmentError("❌ GOOGLE_API_KEY not found in .env")
 
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel("gemini-2.5-flash")
+        self.model = genai.GenerativeModel(os.getenv("GOOGLE_MODEL"))
 
     # --------------------------
     # Prompt loader
