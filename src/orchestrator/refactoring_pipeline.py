@@ -30,15 +30,6 @@ class RefactoringPipeline:
         self.judge = JudgeAgent(str(judge_prompt_path))
 
     def run(self, target_dir: str) -> Dict[str, Any]:
-        """
-        Main entry point of the refactoring loop
-        
-        Args:
-            target_dir: Directory containing the code to refactor (usually ./sandbox/...)
-            
-        Returns:
-            Final summary dictionary (for logging & evaluation)
-        """
         target_path = Path(target_dir).resolve()
         if not target_path.exists() or not target_path.is_dir():
             raise ValueError(f"Target directory not found: {target_dir}")
@@ -61,23 +52,21 @@ class RefactoringPipeline:
             audit_reports = []
             plan_files = []
 
+            last_judge_feedback = judgement.get("suggested_fix", "") if iteration > 1 else ""
+
             for file_path in python_files:
                 code = read_file(file_path)
-                report = self.auditor.audit(
-                    file_path=file_path,
-                    code=code,
-                    require_logging=self.require_logging
-                )
-                audit_reports.append(report)
-
-                if report["status"] != "PASS":
+                report = self.auditor.audit(file_path, code, self.require_logging)
+                
+                # If Auditor finds issues OR if Judge previously complained about this file
+                if report["status"] != "PASS" or last_judge_feedback:
                     plan_files.append({
                         "path": file_path,
-                        "issues": report["issues"],
-                        "suggestions": report["suggestions"],
+                        "issues": report["issues"] + ([f"Judge reported: {judgement.get('reason')}"] if last_judge_feedback else []),
+                        "suggestions": report["suggestions"] + ([last_judge_feedback] if last_judge_feedback else []),
+                        "latest_pylint_output": pylint_output if iteration > 1 else "", # Pass the actual error to the Fixer
                         "llm_feedback": report.get("llm_feedback", "")
                     })
-
             # Build complete plan for this iteration
             current_plan = {
                 "iteration": iteration,
@@ -86,10 +75,8 @@ class RefactoringPipeline:
             }
 
             history.append({
-                "phase": "audit",
-                "iteration": iteration,
-                "audit_reports": [r["status"] for r in audit_reports],
-                "files_needing_fix": len(plan_files)
+                "phase": f"Iter {iteration}: audit",
+                "status": [r["status"] for r in audit_reports]
             })
 
             if not plan_files:
@@ -117,9 +104,8 @@ class RefactoringPipeline:
             fix_result = self.fixer.apply_refactoring_plan(current_plan)
 
             history.append({
-                "phase": "fix",
-                "iteration": iteration,
-                "fix_summary": fix_result
+                "phase": f"Iter {iteration}: fix",
+                "status": fix_result.get('overall_status')
             })
 
             print(f"Fix status: {fix_result.get('overall_status', 'UNKNOWN')}")
@@ -132,10 +118,8 @@ class RefactoringPipeline:
             judgement = self.judge.evaluate(pytest_output, pylint_output)
 
             history.append({
-                "phase": "judge",
-                "iteration": iteration,
-                "decision": judgement["decision"],
-                "reason": judgement.get("reason", "")
+                "phase": f"Iter {iteration}: judge",
+                "status": judgement["decision"]
             })
 
             print(f"\nJudge decision: {judgement['decision']}")
