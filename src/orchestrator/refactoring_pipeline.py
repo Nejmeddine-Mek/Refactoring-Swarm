@@ -128,7 +128,7 @@ class RefactoringPipeline:
             # ── Logging the whole iteration ──────────────────────────
             log_experiment(
                 agent_name="Pipeline-Orchestrator",
-                model_used=os.getenv("GOOGLE_MODEL"),
+                model_used=os.getenv("HF_MODEL", "unknown"),
                 action=ActionType.ANALYSIS,
                 details={
                     "iteration": iteration,

@@ -178,7 +178,7 @@ if __name__ == "__main__":
     
     
     
-#this is the running command python test.py --target_dir sandbox/test_project --max_iterations 3
+#this is the running command :  python test.py --target_dir sandbox/test_project --max_iterations 3
 #these should be in .env file : 
 '''GOOGLE_API_KEY=AIzaSyBeT2Z1ucmL5n5eZk2v-VjeOezlt_AzQLI
 GOOGLE_MODEL=gemini-2.5-flash'''

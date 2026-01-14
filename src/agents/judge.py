@@ -1,8 +1,10 @@
 # judge_agent.py
 from pathlib import Path
 import os
+from urllib import response
 import google.generativeai as genai
 from dotenv import load_dotenv
+from huggingface_hub import InferenceClient
 from src.utils.logger import log_experiment, ActionType
 import json
 import re
@@ -13,7 +15,7 @@ class JudgeAgent:
     def __init__(self, prompt_path: str):
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
-
+        '''
         # ---- Gemini configuration ----
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:
@@ -21,7 +23,18 @@ class JudgeAgent:
 
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel(os.getenv("GOOGLE_MODEL"))
-
+        '''
+        # ---- Hugging Face configuration ----
+        hf_token = os.getenv("HF_TOKEN")
+        if not hf_token:
+            raise EnvironmentError("❌ HF_TOKEN not found in .env")
+        
+        self.model_name = os.getenv("HF_MODEL")
+        self.client = InferenceClient(
+            model=self.model_name,
+            token=hf_token
+        )
+        
     def _parse_llm_json(self, llm_text: str) -> dict:
         import json, re
     
@@ -63,10 +76,22 @@ class JudgeAgent:
     # --------------------------
     def _ask_llm(self, pytest_output: str, pylint_output: str) -> str:
         full_prompt = self.system_prompt.replace("{PYTEST}", pytest_output).replace("{PYLINT}", pylint_output)
-        response = self.model.generate_content(full_prompt)
-        text = response.text.strip()
-    
-        # Remove code fences or extra newlines
+        '''response = self.model.generate_content(full_prompt)
+        text = response.text.strip()'''
+        response = self.client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": full_prompt}
+            ],
+            max_tokens=600,
+            temperature=0.1
+        )
+
+        # Extract the text from the response
+        text = response.choices[0].message.content
+
+                # Remove code fences or extra newlines
         if text.startswith("```") and text.endswith("```"):
             text = "\n".join(text.split("\n")[1:-1])
     
@@ -112,7 +137,7 @@ class JudgeAgent:
         # ---- Log the evaluation ----
         log_experiment(
             agent_name="JudgeAgent",
-            model_used="gemini-2.5-flash",
+            model_used=self.model_name,
             action=ActionType.ANALYSIS,
             details={
                 "input_prompt": self.system_prompt,

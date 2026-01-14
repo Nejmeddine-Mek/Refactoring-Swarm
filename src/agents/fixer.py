@@ -1,8 +1,10 @@
 from pathlib import Path
 import os
 import json
+from urllib import response
 import google.generativeai as genai
 from dotenv import load_dotenv
+from huggingface_hub import InferenceClient
 
 from src.utils.logger import log_experiment, ActionType
 from src.tools.file_tools import read_file, write_file
@@ -13,7 +15,7 @@ class FixerAgent:
     def __init__(self, prompt_path: str):
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
-
+        '''
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:
             raise EnvironmentError("❌ GOOGLE_API_KEY not found in .env")
@@ -23,6 +25,18 @@ class FixerAgent:
             os.getenv("GOOGLE_MODEL"),
             generation_config={"temperature": 0.15}  # more deterministic
         )
+        '''
+        # ---- Hugging Face configuration ----
+        hf_token = os.getenv("HF_TOKEN")
+        if not hf_token:
+            raise EnvironmentError("❌ HF_TOKEN not found in .env")
+        
+        self.model_name = os.getenv("HF_MODEL")
+        self.client = InferenceClient(
+            model=self.model_name,
+            token=hf_token
+        )
+
 
     def _load_prompt(self) -> str:
         if not self.prompt_path.exists():
@@ -45,8 +59,23 @@ class FixerAgent:
             full_prompt = full_prompt[:175_000] + "\n\n[PROMPT WAS TRUNCATED DUE TO LENGTH LIMIT]"
 
         try:
-            response = self.model.generate_content(full_prompt)
-            text = response.text.strip()
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": full_prompt}
+                ],
+                max_tokens=600,
+                temperature=0.1
+            )
+
+            # Extract the text from the response
+            text = response.choices[0].message.content
+
+            
+            '''response = self.model.generate_content(full_prompt)
+                text = response.text.strip()
+            '''
 
             # Better code block extraction
             if "```python" in text:
@@ -115,7 +144,7 @@ class FixerAgent:
         # ---- Log the audit (MANDATORY FORMAT) ----
         log_experiment(
             agent_name="FixerAgent",
-            model_used=os.getenv("GOOGLE_MODEL"),
+            model_used=self.model_name,
             action=ActionType.FIX,
             details={
                 "file": file_path,
