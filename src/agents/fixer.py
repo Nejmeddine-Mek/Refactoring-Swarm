@@ -1,228 +1,199 @@
-# src/agents/fixer.py
-"""
-Fixer Agent for the Refactoring Swarm system.
-Takes a refactoring plan from the Auditor and applies code fixes.
-"""
-
 from pathlib import Path
 import os
 import json
+from urllib import response
 import google.generativeai as genai
 from dotenv import load_dotenv
+from huggingface_hub import InferenceClient
+
 from src.utils.logger import log_experiment, ActionType
 from src.tools.file_tools import read_file, write_file
 
 load_dotenv()
 
 class FixerAgent:
-    """
-    Fixer Agent
-    -----------
-    Applies refactoring plans to fix and improve Python code.
-    Reads plans from Auditor and modifies code accordingly.
-    """
-
     def __init__(self, prompt_path: str):
-        """
-        Initialize the Fixer Agent.
-        
-        Args:
-            prompt_path: Path to the fixer prompt file
-        """
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
-
-        # ---- Gemini configuration ----
+        '''
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:
             raise EnvironmentError("❌ GOOGLE_API_KEY not found in .env")
 
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel("gemini-2.5-flash")
+        self.model = genai.GenerativeModel(
+            os.getenv("GOOGLE_MODEL"),
+            generation_config={"temperature": 0.15}  # more deterministic
+        )
+        '''
+        # ---- Hugging Face configuration ----
+        hf_token = os.getenv("HF_TOKEN")
+        if not hf_token:
+            raise EnvironmentError("❌ HF_TOKEN not found in .env")
+        
+        self.model_name = os.getenv("HF_MODEL")
+        self.client = InferenceClient(
+            model=self.model_name,
+            token=hf_token
+        )
 
-    # --------------------------
-    # Prompt loader
-    # --------------------------
+
     def _load_prompt(self) -> str:
-        """Load the fixer prompt from file."""
         if not self.prompt_path.exists():
             raise FileNotFoundError(f"Fixer prompt not found: {self.prompt_path}")
         return self.prompt_path.read_text(encoding="utf-8")
 
-    # --------------------------
-    # Call Gemini for fixing
-    # --------------------------
     def _ask_llm(self, plan: dict, current_code: str) -> str:
-        """
-        Send plan and code to LLM for fixing.
-        
-        Args:
-            plan: Refactoring plan from Auditor (dict)
-            current_code: Current content of the file
-            
-        Returns:
-            str: Fixed code content
-        """
-        # Format plan as JSON string for the prompt
-        plan_str = json.dumps(plan, indent=2)
-        
-        # Prepare full prompt with placeholders
-        full_prompt = self.system_prompt.replace("{PLAN}", plan_str).replace("{CODE}", current_code)
-        
-        try:
-            response = self.model.generate_content(full_prompt)
-            fixed_code = response.text.strip()
-            
-            # Clean up response (remove any markdown, keep only code)
-            if fixed_code.startswith("```python"):
-                fixed_code = "\n".join(fixed_code.split("\n")[1:-1])
-            elif fixed_code.startswith("```"):
-                fixed_code = "\n".join(fixed_code.split("\n")[1:-1])
-            
-            return fixed_code
-        except Exception as e:
-            error_msg = f"LLM fixing failed: {str(e)}"
-            raise RuntimeError(error_msg)
+        plan_json = json.dumps(plan, indent=2, ensure_ascii=False)
 
-    # --------------------------
-    # Apply fixes to a single file
-    # --------------------------
-    def fix_file(self, file_path: str, refactoring_plan: dict) -> dict:
-        """
-        Apply refactoring plan to a specific file.
-        
-        Args:
-            file_path: Path to the file to fix
-            refactoring_plan: Refactoring plan from Auditor
+        full_prompt = (
+            self.system_prompt
+            .replace("{PLAN}", plan_json)
+            .replace("{CODE}", current_code)
+            .replace("{LATEST_PYTEST}", plan.get("latest_pytest_output", "[no output]"))
+            .replace("{LATEST_PYLINT}", plan.get("latest_pylint_output", "[no output]"))
+        )
+
+        # Safety truncation
+        if len(full_prompt) > 180_000:
+            full_prompt = full_prompt[:175_000] + "\n\n[PROMPT WAS TRUNCATED DUE TO LENGTH LIMIT]"
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": full_prompt}
+                ],
+                max_tokens=600,
+                temperature=0.1
+            )
+
+            # Extract the text from the response
+            text = response.choices[0].message.content
+
             
-        Returns:
-            dict: Report of the fixing operation
-        """
-        # Read current file content
+            '''response = self.model.generate_content(full_prompt)
+                text = response.text.strip()
+            '''
+
+            # Better code block extraction
+            if "```python" in text:
+                return text.split("```python", 1)[1].rsplit("```", 1)[0].strip()
+            if "```" in text:
+                parts = text.split("```", 2)
+                if len(parts) >= 3:
+                    return parts[1].strip()
+            return text
+
+        except Exception as e:
+            raise RuntimeError(f"LLM fixing failed: {str(e)}")
+
+    def fix_file(self, file_path: str, refactoring_plan: dict) -> dict:
         try:
             current_code = read_file(file_path)
         except Exception as e:
             return {
-                "agent": "FixerAgent",
                 "file": file_path,
                 "status": "FAIL",
                 "error": f"Failed to read file: {str(e)}",
                 "changes_applied": False
             }
-        
-        # Get fixed code from LLM
+
+        # Prefer judge's concrete suggestion when available
+        judge_suggestion = refactoring_plan.get("judge_suggested_fix", "")
+        if judge_suggestion and len(judge_suggestion.strip()) > 30:
+            print(f"  → Using judge's suggested fix for {file_path}")
+            fixed_code = judge_suggestion
+        else:
+            try:
+                fixed_code = self._ask_llm(refactoring_plan, current_code)
+            except Exception as e:
+                return {
+                    "file": file_path,
+                    "status": "FAIL",
+                    "error": str(e),
+                    "changes_applied": False
+                }
+
+        # Minimal sanity check
+        if len(fixed_code.strip()) < 20:
+            print(f"Warning: LLM returned almost empty code for {file_path} → keeping original")
+            fixed_code = current_code
+
         try:
-            fixed_code = self._ask_llm(refactoring_plan, current_code)
-            
-            # Write fixed code back to file
             write_file(file_path, fixed_code)
-            
-            # Prepare report
-            report = {
-                "agent": "FixerAgent",
-                "file": file_path,
-                "status": "SUCCESS",
-                "original_size": len(current_code),
-                "fixed_size": len(fixed_code),
-                "changes_applied": True,
-                "plan_summary": refactoring_plan.get("summary", "No summary"),
-                "issues_addressed": refactoring_plan.get("issues", [])
-            }
-            
-            # Log the fixing action
-            log_experiment(
-                agent_name="FixerAgent",
-                model_used="gemini-2.5-flash",
-                action=ActionType.FIX,
-                details={
-                    "file_fixed": file_path,
-                    "input_prompt": self.system_prompt.replace("{PLAN}", json.dumps(refactoring_plan, indent=2)).replace("{CODE}", current_code[:500] + "..." if len(current_code) > 500 else current_code),
-                    "output_response": fixed_code[:500] + "..." if len(fixed_code) > 500 else fixed_code,
-                    "plan_summary": refactoring_plan.get("summary", "No summary"),
-                    "original_length": len(current_code),
-                    "fixed_length": len(fixed_code)
-                },
-                status="SUCCESS"
-            )
-            
-            return report
-            
         except Exception as e:
-            error_report = {
-                "agent": "FixerAgent",
+            return {
                 "file": file_path,
                 "status": "FAIL",
-                "error": str(e),
+                "error": f"Failed to write file: {str(e)}",
                 "changes_applied": False
             }
-            
-            # Log the failure
-            log_experiment(
-                agent_name="FixerAgent",
-                model_used="gemini-2.5-flash",
-                action=ActionType.FIX,
-                details={
-                    "file_fixed": file_path,
-                    "input_prompt": self.system_prompt.replace("{PLAN}", json.dumps(refactoring_plan, indent=2)).replace("{CODE}", current_code[:500] + "..." if len(current_code) > 500 else current_code),
-                    "output_response": f"Error: {str(e)}",
-                    "plan_summary": refactoring_plan.get("summary", "No summary")
-                },
-                status="FAILURE"
-            )
-            
-            return error_report
 
-    # --------------------------
-    # Apply fixes to multiple files
-    # --------------------------
+        report = {
+            "agent": "FixerAgent",
+            "file": file_path,
+            "status": "SUCCESS",
+            "original_size": len(current_code),
+            "fixed_size": len(fixed_code),
+            "changes_applied": fixed_code != current_code,
+            "plan_summary": refactoring_plan.get("global_plan", {}).get("summary", "No summary")
+        }
+
+        # ---- Log the audit (MANDATORY FORMAT) ----
+        log_experiment(
+            agent_name="FixerAgent",
+            model_used=self.model_name,
+            action=ActionType.FIX,
+            details={
+                "file": file_path,
+                "changes_made": report["changes_applied"],
+                "original_length": len(current_code),
+                "new_length": len(fixed_code),
+                # --- ADD THESE TWO LINES ---
+                "input_prompt": self.system_prompt, 
+                "output_response": fixed_code 
+            },
+            status="SUCCESS"
+        )
+
+        return report
+
     def apply_refactoring_plan(self, plan_data: dict) -> dict:
-        """
-        Apply a complete refactoring plan across multiple files.
-        
-        Args:
-            plan_data: Complete refactoring plan from Auditor
-            
-        Returns:
-            dict: Summary of all fixes applied
-        """
         files_to_fix = plan_data.get("files_to_fix", [])
         global_plan = plan_data.get("global_plan", {})
-        
+
         results = []
         successful = 0
         failed = 0
-        
+
         for file_info in files_to_fix:
-            file_path = file_info.get("path")
-            if not file_path:
+            path = file_info.get("path")
+            if not path or not Path(path).is_file():
                 continue
-                
-            # Create file-specific plan
-            file_plan = {
+
+            file_specific_plan = {
                 **global_plan,
-                "file_specific": file_info.get("issues", []),
-                "suggestions": file_info.get("suggestions", []),
-                "summary": f"Fix {file_path} based on audit findings"
+                **file_info,  # merge judge info, issues, suggestions, etc.
+                "file_path": path,
             }
-            
-            # Fix the file
-            result = self.fix_file(file_path, file_plan)
+
+            result = self.fix_file(path, file_specific_plan)
             results.append(result)
-            
-            if result.get("status") == "SUCCESS":
+
+            if result["status"] == "SUCCESS":
                 successful += 1
             else:
                 failed += 1
-        
-        # Summary report
+
         summary = {
             "agent": "FixerAgent",
-            "operation": "batch_refactoring",
             "total_files": len(files_to_fix),
             "successful": successful,
             "failed": failed,
-            "file_results": results,
-            "overall_status": "COMPLETE" if failed == 0 else "PARTIAL"
+            "overall_status": "COMPLETE" if failed == 0 else "PARTIAL_SUCCESS" if successful > 0 else "FAILURE",
+            "file_results": [r["file"] for r in results]
         }
-        
+
         return summary

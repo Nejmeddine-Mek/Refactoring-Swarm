@@ -10,6 +10,7 @@ Rules:
 - Be strict: success means tests pass AND no critical lint errors.
 - Only return valid JSON, Do not add any extra text or explanations.
 - Your JSON must use double quotes for all keys and string values.
+
 Input:
 - pytest output
 - pylint output

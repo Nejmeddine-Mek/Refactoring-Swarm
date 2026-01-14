@@ -43,15 +43,16 @@ def backup_file(path: str) -> None:
 
 
 def write_file(path: str, content: str) -> None:
-    """
-    Safely write content to a file inside sandbox.
-    Creates parent directories if missing.
-    Automatically creates a .bak backup before writing.
-    """
+
     ensure_in_sandbox(path)
 
     file_path = Path(path)
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
     backup_file(path)
-    file_path.write_text(content, encoding="utf-8")
+    clean_content = content.strip()
+    if clean_content:
+        final_content = clean_content + "\n"
+    else:
+        final_content = ""
+    file_path.write_text(final_content, encoding="utf-8")

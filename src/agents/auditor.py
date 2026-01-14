@@ -1,32 +1,35 @@
 from pathlib import Path
 import os
+from urllib import response
 import google.generativeai as genai
 from dotenv import load_dotenv
 from src.utils.logger import log_experiment, ActionType
+from huggingface_hub import InferenceClient
 
 load_dotenv()
 
 class AuditorAgent:
-    """
-    Auditor Agent
-    -------------
-    Reviews code using:
-    - rule-based security checks
-    - LLM analysis (Gemini)
-    """
-
     def __init__(self, prompt_path: str):
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
-
+        hf_token = os.getenv("HF_TOKEN")
+        if not hf_token:
+            raise EnvironmentError("❌ HF_TOKEN not found in .env")
+        
+        self.model_name = os.getenv("HF_MODEL")
+        self.client = InferenceClient(
+            model=self.model_name,
+            token=hf_token
+        )
+        '''
         # ---- Gemini configuration ----
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:
             raise EnvironmentError("❌ GOOGLE_API_KEY not found in .env")
 
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel("gemini-2.5-flash")
-
+        self.model = genai.GenerativeModel(os.getenv("GOOGLE_MODEL"))
+        '''
     # --------------------------
     # Prompt loader
     # --------------------------
@@ -46,12 +49,25 @@ class AuditorAgent:
    {code}
    """
        try:
-           response = self.model.generate_content(full_prompt)
-           return response.text
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": full_prompt}
+                ],
+                max_tokens=600,
+                temperature=0.1
+            )
+            
+            # Extract the text from the response
+            text = response.choices[0].message.content
+            return text
+
+            '''response = self.model.generate_content(full_prompt)
+            return response.text
+            '''
        except Exception as e:
            return f"[LLM unavailable] {str(e)}"
-
-
 
 
     # --------------------------
@@ -110,7 +126,7 @@ class AuditorAgent:
         # ---- Log the audit (MANDATORY FORMAT) ----
         log_experiment(
             agent_name="AuditorAgent",
-            model_used="gemini-2.5-flash",
+            model_used=self.model_name,
             action=ActionType.ANALYSIS,
             details={
                 "input_prompt": self.system_prompt,
