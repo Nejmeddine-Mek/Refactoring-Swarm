@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 import os 
 import dotenv
+from langchain.memory import ConversationBufferMemory
 from src.agents.auditor import AuditorAgent
 from src.agents.fixer import FixerAgent
 from src.agents.judge import JudgeAgent
@@ -13,11 +14,13 @@ from src.utils.logger import log_experiment, ActionType
 
 dotenv.load_dotenv()
 class RefactoringPipeline:
+    
     def __init__(
         self,
         auditor_prompt_path: str | Path,
         fixer_prompt_path: str | Path,
         judge_prompt_path: str | Path,
+        files: list[str],
         max_iterations: int = 8,
         require_logging_check: bool = True,
     ):
@@ -30,20 +33,19 @@ class RefactoringPipeline:
         self.judge = JudgeAgent(str(judge_prompt_path))
 
     def run(self, target_dir: str) -> Dict[str, Any]:
-        target_path = Path(target_dir).resolve()
-        if not target_path.exists() or not target_path.is_dir():
-            raise ValueError(f"Target directory not found: {target_dir}")
 
         iteration = 0
         history = []
         success = False
         final_status = "MAX_ITERATIONS_REACHED"
 
-        python_files = list_python_files(str(target_path))
-
-        print(f"Starting refactoring pipeline on {len(python_files)} files...")
+        print(f"Starting refactoring pipeline on {len(self.files)} files...")
         print(f"Max iterations allowed: {self.max_iterations}\n")
-
+        # here, it is cooked, you should figure this out using langchain
+        # first, start by generating a plan using the dependency graph, before seeing the files
+        # second, audit the code files, one by one
+        # use a memory to keep all results
+        # finally, use all results found in memory to generate one big plan
         while iteration < self.max_iterations:
             iteration += 1
             print(f"\n===== ITERATION {iteration}/{self.max_iterations} =====")
@@ -54,7 +56,7 @@ class RefactoringPipeline:
 
             last_judge_feedback = judgement.get("suggested_fix", "") if iteration > 1 else ""
 
-            for file_path in python_files:
+            for file_path in self.files:
                 code = read_file(file_path)
                 report = self.auditor.audit(file_path, code, self.require_logging)
                 
@@ -135,7 +137,7 @@ class RefactoringPipeline:
                     "input_prompt": "Orchestrating refactoring cycle",
                     "output_response": json.dumps({
                         "decision": judgement["decision"],
-                        "files_processed": len(python_files),
+                        "files_processed": len(self.files),
                         "files_fixed": fix_result.get("successful", 0),
                         "judge_reason": judgement.get("reason", "")
                     }, indent=2),
@@ -158,7 +160,7 @@ class RefactoringPipeline:
             "status": final_status,
             "iterations_performed": iteration,
             "success": success,
-            "files_processed": len(python_files),
+            "files_processed": len(self.files),
             "last_decision": judgement if 'judgement' in locals() else None,
             "history_summary": [
                 f"Iter {i+1}: {h['phase']} → {h.get('decision', h.get('fix_summary', {}).get('overall_status', '—'))}"
@@ -175,6 +177,7 @@ def run_refactoring_pipeline(
     auditor_prompt: str,
     fixer_prompt: str,
     judge_prompt: str,
+    files: list[str],
     max_iterations: int = 8
 ) -> Dict:
     """Convenience function to be called from main.py"""

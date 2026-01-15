@@ -1,0 +1,26 @@
+Output format (STRICT JSON):
+{
+  "summary": "Global assessment of the code quality",
+  "issues": [
+    {
+      "file": "file_name.py",
+      "type": "BUG | DESIGN | TEST | SECURITY",
+      "description": "What is wrong",
+      "severity": "LOW | MEDIUM | HIGH"
+    }
+  ],
+  "refactoring_plan": [
+    {
+      "file": "file_name.py",
+      "actions": [
+        "action 1",
+        "action 2"
+      ]
+    }
+  ]
+}
+
+Analyze the following code:
+----------------------------
+{CODE}
+----------------------------

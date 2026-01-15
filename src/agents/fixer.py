@@ -1,8 +1,8 @@
 from pathlib import Path
 import os
 import json
-from urllib import response
-import google.generativeai as genai
+#from urllib import response
+#import google.generativeai as genai
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 

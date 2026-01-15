@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
-from urllib import response
-import google.generativeai as genai
+#from urllib import response
+#import google.generativeai as genai
 from dotenv import load_dotenv
 from src.utils.logger import log_experiment, ActionType
 from huggingface_hub import InferenceClient
@@ -55,7 +55,7 @@ class AuditorAgent:
                     {"role": "system", "content": self.system_prompt},
                     {"role": "user", "content": full_prompt}
                 ],
-                max_tokens=600,
+                max_tokens=1000,
                 temperature=0.1
             )
             

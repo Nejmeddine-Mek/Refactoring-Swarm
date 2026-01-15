@@ -3,7 +3,7 @@ from collections import defaultdict
 from src.tools.file_tools import read_file
 
 def createDepGraph(files):
-    files_map = defaultdict(list)
+    files_map = defaultdict(str)
     graph = defaultdict(list)
 
     # we start by creating keys for our directory
@@ -23,7 +23,10 @@ def createDepGraph(files):
             for key in graph.keys():
                 if key in words[1]:
                     graph[file_name].append(files_map.get(key))
-        
-    for key in graph.keys():
-        print(key, " ", graph.get(key))
+    keys = list(graph.keys())
+    for key in keys:
+        graph[files_map[key]] = graph.pop(key)
+        #print(files_map.get(key), " ", graph.get(key))
     return graph
+
+  

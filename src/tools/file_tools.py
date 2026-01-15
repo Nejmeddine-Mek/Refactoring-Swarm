@@ -1,5 +1,6 @@
 from pathlib import Path
 import shutil
+from src.depgraph.formatter import formatGraph
 from src.tools.security import ensure_in_sandbox
 
 
@@ -56,3 +57,24 @@ def write_file(path: str, content: str) -> None:
     else:
         final_content = ""
     file_path.write_text(final_content, encoding="utf-8")
+
+def compile_auditor_prompt(dependency_graph: str) -> None:
+
+    first_static_header = read_file("src/prompts/auditor_prompt_part1.txt")
+    second_static_header = read_file("src/prompts/auditor_prompt_part2.txt")
+    formatted_graph = formatGraph(dependency_graph)
+
+    output_str = output_str = "\n".join([
+    first_static_header,
+    "Dependency graph:",
+    formatted_graph,
+    second_static_header
+    ])
+
+    # write it in the prompt file to use one file
+    write_file("src/prompts/auditor_prompt.txt", output_str)
+
+
+
+
+    

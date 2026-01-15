@@ -9,22 +9,15 @@ from src.depgraph.depgraph import createDepGraph
 # Toolsmith helpers
 from src.tools.cli_tools import parse_args, prepare_payloads
 from src.tools.analysis_tools import run_pylint, run_pytest
-from src.tools.file_tools import write_file, backup_file
-
+from src.tools.file_tools import write_file, backup_file, compile_auditor_prompt
 from src.orchestrator.refactoring_pipeline import run_refactoring_pipeline
 
 # we should remove ipynb later
 extensions_set = {".py", ".ipynb"}
 
-# load_dotenv()
+load_dotenv()
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description="Refactoring Swarm")
-    parser.add_argument("--target_dir", type=str, required=True,
-                        help="Directory containing the code to refactor")
-    parser.add_argument("--max_iterations", type=int, default=8,
-                        help="Maximum number of refactoring iterations")
-    return parser.parse_args()
+
 # --------------------------
 # Main
 # --------------------------
@@ -89,7 +82,7 @@ def main():
                     continue
                 if f.suffix.lower() not in extensions_set:
                     continue
-                print(f, f.name)
+                # print(f, f.name)
                 if f.stat().st_size > MAX_SIZE:
                     print(f"{f} is too big")
                     sys.exit(2)
@@ -99,13 +92,29 @@ def main():
         #print(f"{f} is a python file")
         #print(file_names_list)
         # now, all the files should be grouped in the file_names_list. we can proceed
-    
-    #print(f"🚀 DEMARRAGE SUR : {args.dir}")
-   
-    graph = createDepGraph(file_names_list)
-    
-    # Log startup
-    """
+    # create a dependency graph grouping files that depend on each other in an adjacency list for the next steps
+    dependency_graph = createDepGraph(file_names_list)
+    #print(formatGraph(dependency_graph))
+    compile_auditor_prompt(dependency_graph)
+    # now the main work starts
+    print("\n" + "=" * 70)
+    print("   Starting real Refactoring Pipeline   ".center(70))
+    print("=" * 70 + "\n")
+
+""" 
+    # ── Real pipeline call ───────────────────────────────────────────────
+    result = run_refactoring_pipeline(
+        target_dir=args.dir if args.dir else str(Path(args.file).parent),
+        auditor_prompt="src/prompts/auditor_prompt.txt",
+        fixer_prompt="src/prompts/fixer_prompt.txt",
+        judge_prompt="src/prompts/judge_prompt.txt",
+        files=[str(f) for f in file_names_list],     # list of files to treat, at least 1
+        dep_graph=dependency_graph,                             # here goes the dependency graph
+        max_iterations=MAX_ITERATIONS
+    )
+        #print(f"🚀 DEMARRAGE SUR : {args.dir}")
+        # Log startup
+
     log_experiment(
         "System",
         "unknown",
@@ -148,7 +157,7 @@ def main():
         },
         "INFO"
     )
-    """
+
 
     print("\n" + "=" * 70)
     print("   Starting real Refactoring Pipeline   ".center(70))
@@ -172,7 +181,7 @@ def main():
     print("   MISSION COMPLETE   ".center(70, "═"))
     print("═" * 70)
 
-
+    """
 if __name__ == "__main__":
     main()
     
