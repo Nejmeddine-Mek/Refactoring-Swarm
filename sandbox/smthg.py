@@ -1,2 +1,2 @@
-de add_numbers(a, b):
-    rurn a
+def add_numbers(a, b):
+    return a + b

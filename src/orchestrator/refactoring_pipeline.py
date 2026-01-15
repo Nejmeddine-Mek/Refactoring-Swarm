@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from typing import Dict, Any, List
 
-from langchain_classic.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferMemory
 
 from src.agents.auditor import AuditorAgent
 from src.agents.fixer import FixerAgent
@@ -21,6 +21,7 @@ class RefactoringPipeline:
 
     def __init__(
         self,
+        target_dir: str | Path,
         auditor_prompt_path: str | Path,
         fixer_prompt_path: str | Path,
         judge_prompt_path: str | Path,
@@ -260,6 +261,7 @@ def run_refactoring_pipeline(
     max_iterations: int = 8,
 ) -> Dict[str, Any]:
     pipeline = RefactoringPipeline(
+        target_dir=target_dir,
         auditor_prompt_path=auditor_prompt,
         fixer_prompt_path=fixer_prompt,
         judge_prompt_path=judge_prompt,

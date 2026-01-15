@@ -25603,5 +25603,1632 @@
             "output_response": "Fix summary: COMPLETE"
         },
         "status": "SUCCESS"
+    },
+    {
+        "id": "2dd3a413-0855-43da-8127-3d7e314b9cbc",
+        "timestamp": "2026-01-15T19:13:39.818405",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code has a potential bug due to unclear type handling and contains dead code. The imported module b is unused.",
+                    "issues": [
+                        {
+                            "file": "a.py",
+                            "type": "BUG",
+                            "description": "The function func_a performs addition without type checking, which could lead to unexpected behavior if x is not a number. The comment suggests expecting integer addition but doesn't enforce it.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "a.py",
+                            "type": "DESIGN",
+                            "description": "unused_function is defined but never used, constituting dead code.",
+                            "severity": "LOW"
+                        },
+                        {
+                            "file": "a.py",
+                            "type": "DESIGN",
+                            "description": "Module 'b' is imported but not used.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "a.py",
+                            "actions": [
+                                "Add type hints or validation in func_a to ensure x is numeric before performing addition",
+                                "Remove the unused_function since it's not referenced anywhere",
+                                "Remove the import of module 'b' since it's not used"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "bf28b8e5-70de-4c95-833d-767e1babfde6",
+        "timestamp": "2026-01-15T19:13:41.454455",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code is a simple function that returns a static string. It is correct and safe.",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "52c0f804-76b5-4f9c-85eb-2924f23e1f18",
+        "timestamp": "2026-01-15T19:13:49.641316",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\c.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code is functionally correct but has a runtime dependency that could fail if the imported function is unavailable or misbehaving. There's also a lack of error handling and input validation which affects robustness and testability.",
+                    "issues": [
+                        {
+                            "file": "c.py",
+                            "type": "DESIGN",
+                            "description": "Direct dependency on external function without error handling or input validation makes the function fragile and hard to test in isolation",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "c.py",
+                            "type": "TEST",
+                            "description": "Function cannot be easily unit tested due to direct dependency on func_a without ability to mock or inject dependency",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "c.py",
+                            "actions": [
+                                "Add input validation to check if z is a valid numeric type before processing",
+                                "Add error handling to catch potential exceptions from func_a",
+                                "Consider adding type hints for better code documentation and validation",
+                                "Consider making the dependency on func_a more explicit through parameterization or dependency injection for better testability"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "677c3afb-d586-4e3a-8252-40946c878056",
+        "timestamp": "2026-01-15T19:13:52.840153",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\smthg.py",
+                "status": "FAIL",
+                "issues": [
+                    "Syntax error: unable to parse file",
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "HIGH",
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code contains syntax errors and an incomplete function implementation. The function name is misspelled and the return statement is incorrect.",
+                    "issues": [
+                        {
+                            "file": "code.py",
+                            "type": "BUG",
+                            "description": "Function definition has a typo: 'de' instead of 'def'",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "code.py",
+                            "type": "BUG",
+                            "description": "Return statement has a typo: 'rurn' instead of 'return'",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "code.py",
+                            "type": "BUG",
+                            "description": "Function does not perform addition operation - it only returns the first parameter",
+                            "severity": "HIGH"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "code.py",
+                            "actions": [
+                                "Fix function definition keyword from 'de' to 'def'",
+                                "Fix return statement keyword from 'rurn' to 'return'",
+                                "Implement proper addition logic: return a + b"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "c4d588cd-f6ef-4782-92f9-0f5e84bf7e1c",
+        "timestamp": "2026-01-15T19:13:56.019478",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct but lacks comprehensive coverage. The main issue is that it only tests one specific input case for func_a, which limits the ability to detect edge cases or incorrect behavior for other inputs.",
+                    "issues": [
+                        {
+                            "file": "test_a.py",
+                            "type": "TEST",
+                            "description": "Test coverage is insufficient - only tests func_a with input 2. Missing edge cases like negative numbers, zero, and non-integer inputs.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_a.py",
+                            "actions": [
+                                "Add test cases for edge cases including zero, negative numbers, and invalid input types",
+                                "Consider adding parametrized tests to validate multiple input-output combinations",
+                                "Add tests for potential error conditions if func_a should handle invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "7499fb59-a2e2-468e-a4a2-a16f176054e6",
+        "timestamp": "2026-01-15T19:13:59.003460",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct but lacks comprehensive coverage. The main issue is that it only tests one input case for func_b, which limits confidence in the function's correctness.",
+                    "issues": [
+                        {
+                            "file": "test_b.py",
+                            "type": "TEST",
+                            "description": "Insufficient test coverage - only testing one input value (2) for func_b. This doesn't verify behavior for edge cases, negative numbers, zero, or non-integer inputs.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_b.py",
+                            "actions": [
+                                "Add test cases for edge cases including zero, negative numbers, and boundary values",
+                                "Consider adding parameterized tests to validate multiple input-output combinations",
+                                "Add tests for potential error conditions if func_b should handle invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "b50fcd72-2524-4bb9-8b03-0d6bb100ffbc",
+        "timestamp": "2026-01-15T19:14:02.262155",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_c.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file has a dependency on an external function and lacks comprehensive test coverage.",
+                    "issues": [
+                        {
+                            "file": "test_c.py",
+                            "type": "TEST",
+                            "description": "Test depends on external function implementation (func_a) without explicit testing of func_c's behavior. Comment indicates prerequisite fixes but doesn't verify them.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "test_c.py",
+                            "type": "TEST",
+                            "description": "Only one test case provided with single input value. Lacks edge cases, boundary conditions, and error condition tests.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_c.py",
+                            "actions": [
+                                "Add explicit assertions or mocks to verify func_c behavior independently of func_a implementation",
+                                "Add test cases for edge cases, boundary values, and error conditions",
+                                "Remove or resolve the implicit dependency on external function fixes mentioned in comments"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "169f2322-ea3d-4ae0-9b24-37b5bcf2b08c",
+        "timestamp": "2026-01-15T19:14:05.601530",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_smthg.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct and covers basic functionality of the add_numbers function. However, there are some testability concerns regarding edge cases and input validation that should be addressed.",
+                    "issues": [
+                        {
+                            "file": "test_smthg.py",
+                            "type": "TEST",
+                            "description": "Missing test cases for floating point numbers, large integers, and type validation",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "test_smthg.py",
+                            "type": "TEST",
+                            "description": "No tests for potential error conditions or invalid input types",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_smthg.py",
+                            "actions": [
+                                "Add test cases for floating point number addition",
+                                "Include tests for large integer values to check for overflow handling",
+                                "Add tests for type validation (e.g., string inputs, None values)",
+                                "Consider adding boundary value tests for maximum/minimum integer values",
+                                "Add negative test cases to verify appropriate error handling for invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "a5f9b397-81c0-4cdf-8ad6-56d18f6ffed6",
+        "timestamp": "2026-01-15T19:14:09.841198",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\analysis_tools.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code provides utilities to run pylint and pytest with basic sandbox checks. Potential issues include lack of input sanitization, broad exception handling, and missing validation for directory targets in pytest.",
+                    "issues": [
+                        {
+                            "file": "src/tools/runner.py",
+                            "type": "SECURITY",
+                            "description": "The `_run_command` function uses `subprocess.run` directly with externally provided arguments, which may lead to command injection if inputs are not properly sanitized.",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "src/tools/runner.py",
+                            "type": "DESIGN",
+                            "description": "Broad exception handling in `_run_command` hides potentially useful debugging information and may mask unexpected errors.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "src/tools/runner.py",
+                            "type": "TEST",
+                            "description": "The `run_pytest` function does not verify that the target is a directory before execution, possibly leading to misleading error messages or unintended behavior.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "src/tools/runner.py",
+                            "actions": [
+                                "Sanitize and validate all external inputs before passing them to `subprocess.run` to prevent potential command injection vulnerabilities.",
+                                "Replace generic exception handling in `_run_command` with specific exception types to avoid masking unexpected errors.",
+                                "Add explicit check in `run_pytest` to confirm the target path is a directory before proceeding with command execution."
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "12e6a6a3-c1bb-4897-83f2-760787b2f7de",
+        "timestamp": "2026-01-15T19:14:11.884742",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\cli_tools.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "raw_feedback": ""
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "b9a336ee-4d3b-45a3-b51f-dd3d4ef9ebb8",
+        "timestamp": "2026-01-15T19:14:17.165212",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\file_tools.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code contains several issues related to error handling, resource management, and potential runtime errors. Key problems include overly broad exception handling, missing input validation, and a critical bug in string concatenation logic.",
+                    "issues": [
+                        {
+                            "file": "audit_code.py",
+                            "type": "BUG",
+                            "description": "Duplicate variable assignment in compile_auditor_prompt function: 'output_str = output_str = ...' will cause a NameError since output_str is referenced before assignment.",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "audit_code.py",
+                            "type": "DESIGN",
+                            "description": "read_file function uses overly broad 'except Exception' which can mask unexpected errors and make debugging difficult.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "audit_code.py",
+                            "type": "DESIGN",
+                            "description": "list_python_files function does not validate that target_dir is a directory (could be a file).",
+                            "severity": "LOW"
+                        },
+                        {
+                            "file": "audit_code.py",
+                            "type": "TEST",
+                            "description": "Functions lack proper input validation and edge case handling, making them harder to test reliably.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "audit_code.py",
+                            "type": "DESIGN",
+                            "description": "write_file function may create directories outside intended scope due to missing path validation after parent creation.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "audit_code.py",
+                            "actions": [
+                                "Fix duplicate variable assignment in compile_auditor_prompt by removing redundant 'output_str ='",
+                                "Replace broad 'except Exception' in read_file with specific exception types like UnicodeDecodeError",
+                                "Add check in list_python_files to verify target_dir is a directory using Path.is_dir()",
+                                "Add validation in write_file to ensure created directories remain within sandbox boundaries",
+                                "Add input validation for all file paths to prevent directory traversal vulnerabilities"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "fd3294c3-0219-4cfb-8831-b59674b6dca7",
+        "timestamp": "2026-01-15T19:14:21.787799",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\security.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code provides utilities for sandbox path validation. The core logic is sound but has critical security vulnerabilities related to path traversal that could allow bypassing sandbox restrictions. The test suite is basic but covers main cases.",
+                    "issues": [
+                        {
+                            "file": "security.py",
+                            "type": "SECURITY",
+                            "description": "Path traversal vulnerability: symlinks pointing outside sandbox can bypass validation since resolve() is called before relative_to() check",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "security.py",
+                            "type": "DESIGN",
+                            "description": "get_project_root() makes unsafe assumption about file location (parents[2]) which may break if file is moved",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "security.py",
+                            "type": "TEST",
+                            "description": "Missing test cases for symlink-based attacks and edge cases like '..' components after sandbox root",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "security.py",
+                            "actions": [
+                                "Reorder path resolution to check relative_to() before calling resolve() to prevent symlink traversal attacks",
+                                "Add validation that checks both resolved and unresolved path components for sandbox containment",
+                                "Make get_project_root() more robust by searching for a marker file/directory instead of assuming fixed depth",
+                                "Expand test suite to include symlink attack scenarios and complex path edge cases"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "4b99f361-81cf-46d8-9d4b-0e180bade051",
+        "timestamp": "2026-01-15T19:15:26.475517",
+        "agent": "JudgeAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the JUDGE agent in a self-healing refactoring system.\n\nYour mission:\n- Analyze test results and logs.\n- Decide if the system should STOP or RETRY.\n\nRules:\n- You do NOT modify code.\n- You only evaluate outcomes.\n- Be strict: success means tests pass AND no critical lint errors.\n- Only return valid JSON, Do not add any extra text or explanations.\n- Your JSON must use double quotes for all keys and string values.\n\nInput:\n- pytest output\n- pylint output\n\nOutput format (STRICT JSON):\n{\n  \"decision\": \"SUCCESS | RETRY\",\n  \"reason\": \"Short technical explanation\",\n  \"suggested_fix\": \"If RETRY, describe what should be corrected\"\n}\n\nPytest output:\n-----------------\n{PYTEST}\n-----------------\n\nPylint output:\n-----------------\n{PYLINT}\n-----------------",
+            "output_response": {
+                "agent": "JudgeAgent",
+                "decision": "RETRY",
+                "reason": "Tests or critical issues remain.\nPytest output:\n============================= test session starts =============================\nplatform win32 -- Python 3.11.6, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\nplugins: anyio-4.12.1\ncollected 1 item / 3 errors\n\n=================================== ERRORS ====================================\n_____________________ ERROR collecting sandbox/test_b.py ______________________\nImportError while importing test module 'C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\test_b.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n..\\..\\..\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py:126: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\nsandbox\\test_b.py:2: in <module>\n    from b import func_b\nE   ImportError: cannot import name 'func_b' from 'b' (C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\b.py)\n_____________________ ERROR collecting sandbox/test_c.py ______________________\nImportError while importing test module 'C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\test_c.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n..\\..\\..\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py:126: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\nsandbox\\test_c.py:2: in <module>\n    from c import func_c\nE   ImportError: cannot import name 'func_c' from 'c' (C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\c.py)\n___________________ ERROR collecting sandbox/test_smthg.py ____________________\nImportError while importing test module 'C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\test_smthg.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n..\\..\\..\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py:126: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\nsandbox\\test_smthg.py:2: in <module>\n    from smthg import add_numbers\nE   ImportError: cannot import name 'add_numbers' from 'smthg' (C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\smthg.py)\n=========================== short test summary info ===========================\nERROR sandbox/test_b.py\nERROR sandbox/test_c.py\nERROR sandbox/test_smthg.py\n!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!\n============================== 3 errors in 0.48s ==============================\n\nPylint critical issues:\n************* Module a\nsandbox\\a.py:2:0: W0611: Unused import b (unused-import)\n************* Module b\n************* Module test_a\n************* Module test_b\nsandbox\\test_b.py:2:0: E0611: No name 'func_b' in module 'b' (no-name-in-module)\n************* Module test_c\nsandbox\\test_c.py:2:0: E0611: No name 'func_c' in module 'c' (no-name-in-module)\n************* Module test_smthg\nsandbox\\test_smthg.py:2:0: E0611: No name 'add_numbers' in module 'smthg' (no-name-in-module)\n************* Module tools.analysis_tools\nsandbox\\tools\\analysis_tools.py:17:22: C0303: Trailing whitespace (trailing-whitespace)\nsandbox\\tools\\analysis_tools.py:3:0: E0401: Unable to import 'src.tools.security' (import-error)\nsandbox\\tools\\analysis_tools.py:22:11: W0718: Catching too general exception Exception (broad-exception-caught)\nsandbox\\tools\\analysis_tools.py:12:17: W1510: 'subprocess.run' used without explicitly defining the value for 'check'. (subprocess-run-check)\n************* Module tools.file_tools\nsandbox\\tools\\file_tools.py:3:0: E0401: Unable to import 'src.depgraph.formatter' (import-error)\nsandbox\\tools\\file_tools.py:4:0: E0401: Unable to import 'src.tools.security' (import-error)\nsandbox\\tools\\file_tools.py:30:15: W0718: Catching too general exception Exception (broad-exception-caught)\n************* Module tools.security\nsandbox\\tools\\security.py:35:8: W0707: Consider explicitly re-raising using 'except ValueError as exc' and 'raise ValueError(f'SECURITY VIOLATION: Attempt to access path outside sandbox:\\n{target_path}') from exc' (raise-missing-from)\n\n-----------------------------------\nYour code has been rated at 5.45/10\n\n",
+                "suggested_fix": "Ensure all imported functions like 'func_b', 'func_c', and 'add_numbers' are properly defined in their respective modules. Fix import paths and resolve 'no-name-in-module' errors. Address critical pylint issues such as 'import-error' and 'no-name-in-module' before retrying.",
+                "llm_feedback": "{\n  \"decision\": \"RETRY\",\n  \"reason\": \"Multiple test collection errors due to missing imports and undefined functions. Pylint also reports critical import errors and undefined names.\",\n  \"suggested_fix\": \"Ensure all imported functions like 'func_b', 'func_c', and 'add_numbers' are properly defined in their respective modules. Fix import paths and resolve 'no-name-in-module' errors. Address critical pylint issues such as 'import-error' and 'no-name-in-module' before retrying.\"\n}"
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "1f9f296e-4f62-4118-9148-32f5d0344244",
+        "timestamp": "2026-01-15T19:15:26.628454",
+        "agent": "Pipeline-Orchestrator",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "iteration": 1,
+            "decision": "RETRY",
+            "judge_reason": "Tests or critical issues remain.\nPytest output:\n============================= test session starts =============================\nplatform win32 -- Python 3.11.6, pytest-7.4.4, pluggy-1.6.0\nrootdir: C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\nplugins: anyio-4.12.1\ncollected 1 item / 3 errors\n\n=================================== ERRORS ====================================\n_____________________ ERROR collecting sandbox/test_b.py ______________________\nImportError while importing test module 'C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\test_b.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n..\\..\\..\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py:126: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\nsandbox\\test_b.py:2: in <module>\n    from b import func_b\nE   ImportError: cannot import name 'func_b' from 'b' (C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\b.py)\n_____________________ ERROR collecting sandbox/test_c.py ______________________\nImportError while importing test module 'C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\test_c.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n..\\..\\..\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py:126: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\nsandbox\\test_c.py:2: in <module>\n    from c import func_c\nE   ImportError: cannot import name 'func_c' from 'c' (C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\c.py)\n___________________ ERROR collecting sandbox/test_smthg.py ____________________\nImportError while importing test module 'C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\test_smthg.py'.\nHint: make sure your test modules/packages have valid Python names.\nTraceback:\n..\\..\\..\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py:126: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\nsandbox\\test_smthg.py:2: in <module>\n    from smthg import add_numbers\nE   ImportError: cannot import name 'add_numbers' from 'smthg' (C:\\Users\\Nejem Eddine\\Desktop\\ML\\Refactoring-Swarm\\sandbox\\smthg.py)\n=========================== short test summary info ===========================\nERROR sandbox/test_b.py\nERROR sandbox/test_c.py\nERROR sandbox/test_smthg.py\n!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!\n============================== 3 errors in 0.48s ==============================\n\nPylint critical issues:\n************* Module a\nsandbox\\a.py:2:0: W0611: Unused import b (unused-import)\n************* Module b\n************* Module test_a\n************* Module test_b\nsandbox\\test_b.py:2:0: E0611: No name 'func_b' in module 'b' (no-name-in-module)\n************* Module test_c\nsandbox\\test_c.py:2:0: E0611: No name 'func_c' in module 'c' (no-name-in-module)\n************* Module test_smthg\nsandbox\\test_smthg.py:2:0: E0611: No name 'add_numbers' in module 'smthg' (no-name-in-module)\n************* Module tools.analysis_tools\nsandbox\\tools\\analysis_tools.py:17:22: C0303: Trailing whitespace (trailing-whitespace)\nsandbox\\tools\\analysis_tools.py:3:0: E0401: Unable to import 'src.tools.security' (import-error)\nsandbox\\tools\\analysis_tools.py:22:11: W0718: Catching too general exception Exception (broad-exception-caught)\nsandbox\\tools\\analysis_tools.py:12:17: W1510: 'subprocess.run' used without explicitly defining the value for 'check'. (subprocess-run-check)\n************* Module tools.file_tools\nsandbox\\tools\\file_tools.py:3:0: E0401: Unable to import 'src.depgraph.formatter' (import-error)\nsandbox\\tools\\file_tools.py:4:0: E0401: Unable to import 'src.tools.security' (import-error)\nsandbox\\tools\\file_tools.py:30:15: W0718: Catching too general exception Exception (broad-exception-caught)\n************* Module tools.security\nsandbox\\tools\\security.py:35:8: W0707: Consider explicitly re-raising using 'except ValueError as exc' and 'raise ValueError(f'SECURITY VIOLATION: Attempt to access path outside sandbox:\\n{target_path}') from exc' (raise-missing-from)\n\n-----------------------------------\nYour code has been rated at 5.45/10\n\n",
+            "input_prompt": "Pipeline orchestrating audit/fix/judge cycle",
+            "output_response": "Fix summary: COMPLETE"
+        },
+        "status": "RETRY"
+    },
+    {
+        "id": "0b7d28c4-5d64-46cc-aab3-d613791529ed",
+        "timestamp": "2026-01-15T19:15:36.095342",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code has a potential bug due to unclear type handling and contains dead code. The imported module b is unused.",
+                    "issues": [
+                        {
+                            "file": "a.py",
+                            "type": "BUG",
+                            "description": "The function func_a performs addition without type checking, which could lead to unexpected behavior if x is not a number. The comment suggests integer addition but doesn't enforce it.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "a.py",
+                            "type": "DESIGN",
+                            "description": "unused_function is defined but never called, constituting dead code. Also, module b is imported but not used.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "a.py",
+                            "actions": [
+                                "Add type checking or type hints to func_a to ensure x is numeric before performing addition",
+                                "Remove unused_function since it's not being used",
+                                "Remove unused import of module b"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "0a7f01c9-40d8-4b8a-b088-04ec33e14fa3",
+        "timestamp": "2026-01-15T19:15:41.100606",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code is a simple function that returns a static string. It is correct and safe but lacks testability due to its implicit dependency on the file name.",
+                    "issues": [
+                        {
+                            "file": "b.py",
+                            "type": "TEST",
+                            "description": "The function returns a hardcoded string that includes the file name, making tests brittle if the file is renamed.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "b.py",
+                            "actions": [
+                                "Consider making the returned string configurable or avoid hardcoding the file name to improve testability."
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "025df6f6-8270-4825-8e6f-23d0620cf50d",
+        "timestamp": "2026-01-15T19:15:42.369124",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\c.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "No code provided for analysis",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "7b1f3c80-722d-4e30-9f91-28444e752750",
+        "timestamp": "2026-01-15T19:15:43.509598",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\smthg.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "No code provided for analysis",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "24fa8e49-d7a4-4b10-85a7-ee3270f3d92f",
+        "timestamp": "2026-01-15T19:15:46.518560",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct but lacks comprehensive coverage. The main issue is that it only tests one specific input case for func_a, which limits the ability to detect edge cases or incorrect behavior for other inputs.",
+                    "issues": [
+                        {
+                            "file": "test_a.py",
+                            "type": "TEST",
+                            "description": "Test coverage is insufficient - only tests func_a with input 2. Missing edge cases like negative numbers, zero, and non-integer inputs.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_a.py",
+                            "actions": [
+                                "Add test cases for edge cases including zero, negative numbers, and invalid input types",
+                                "Consider adding parametrized tests to validate multiple input-output combinations",
+                                "Add tests for potential error conditions if func_a should handle invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "45a01a95-2df6-4c2c-98cd-7562731e1385",
+        "timestamp": "2026-01-15T19:15:52.855585",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file is minimal but functional. It properly imports and tests a function, though it lacks comprehensive test coverage.",
+                    "issues": [
+                        {
+                            "file": "test_b.py",
+                            "type": "TEST",
+                            "description": "Test coverage is minimal with only one test case for func_b. Edge cases, error conditions, and boundary values are not tested.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_b.py",
+                            "actions": [
+                                "Add test cases for edge cases such as negative numbers, zero, and large numbers",
+                                "Add tests for invalid input types if func_b has type restrictions",
+                                "Consider adding parameterized tests to efficiently test multiple input scenarios",
+                                "Add descriptive test function names or docstrings to clarify test intent"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "ec6a8f1a-9ade-4eab-be92-738e65237979",
+        "timestamp": "2026-01-15T19:15:54.407451",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_c.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "raw_feedback": ""
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "d9acff84-1fa6-464c-b18a-73fa82292fc4",
+        "timestamp": "2026-01-15T19:16:43.217092",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code has a potential bug in func_a where the addition operation may not behave as expected depending on the input type, and contains dead code with unused_function. The import statement is present but not used.",
+                    "issues": [
+                        {
+                            "file": "a.py",
+                            "type": "BUG",
+                            "description": "Function func_a performs addition with 1 but doesn't validate input type, which could lead to unexpected behavior if x is not numeric",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "a.py",
+                            "type": "DESIGN",
+                            "description": "unused_function is defined but never called, constituting dead code",
+                            "severity": "LOW"
+                        },
+                        {
+                            "file": "a.py",
+                            "type": "DESIGN",
+                            "description": "Imported module 'b' is not used in the code",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "a.py",
+                            "actions": [
+                                "Add input type validation in func_a to ensure x is numeric before performing addition",
+                                "Remove unused_function if it's not needed",
+                                "Remove unused import of module 'b'"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "65a06179-6e9b-4139-96ea-f78886b3a293",
+        "timestamp": "2026-01-15T19:16:45.610164",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code is a simple function that returns a static string. It is correct and safe.",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "da4560ee-875b-451e-b338-3020f656bdbd",
+        "timestamp": "2026-01-15T19:16:47.164070",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\c.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "No code provided for analysis",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "e87fe8dd-c399-4043-86c5-a472c8b0f9fb",
+        "timestamp": "2026-01-15T19:16:48.506125",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\smthg.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "No code provided for analysis",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "aef94203-a272-40f4-bbac-1ae37abf472d",
+        "timestamp": "2026-01-15T19:16:51.836466",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct but lacks comprehensive coverage. The main issue is that it only tests one specific input case for func_a, which limits the ability to detect edge cases or incorrect behavior for other inputs.",
+                    "issues": [
+                        {
+                            "file": "test_a.py",
+                            "type": "TEST",
+                            "description": "Test coverage is insufficient - only tests func_a with input 2. Missing edge cases like negative numbers, zero, and non-integer inputs.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_a.py",
+                            "actions": [
+                                "Add test cases for edge cases including zero, negative numbers, and invalid input types",
+                                "Consider adding parametrized tests to validate multiple input-output combinations",
+                                "Add tests for potential error conditions if func_a should handle invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "ae55de93-d5bb-42c8-8bbb-fa39dda04521",
+        "timestamp": "2026-01-15T19:16:58.745801",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct but lacks comprehensive test coverage. The test validates one basic case but doesn't test edge cases, error conditions, or different input types.",
+                    "issues": [
+                        {
+                            "file": "test_b.py",
+                            "type": "TEST",
+                            "description": "Insufficient test coverage - only tests one positive integer case. Missing tests for edge cases like zero, negative numbers, non-integer inputs, and boundary conditions.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_b.py",
+                            "actions": [
+                                "Add test cases for edge cases including zero, negative numbers, and boundary values",
+                                "Add tests for invalid input types to verify proper error handling",
+                                "Consider adding parametrized tests to improve coverage efficiency",
+                                "Add tests for any expected exception cases if func_b should raise errors"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "57b32d22-4086-47d2-8568-fe36481b7f72",
+        "timestamp": "2026-01-15T19:17:20.514149",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code has a potential bug due to unclear type handling and contains dead code. The imported module b is unused.",
+                    "issues": [
+                        {
+                            "file": "a.py",
+                            "type": "BUG",
+                            "description": "The function func_a performs addition without type checking, which could lead to unexpected behavior if x is not a number. The comment suggests expecting integer addition but doesn't enforce it.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "a.py",
+                            "type": "DESIGN",
+                            "description": "unused_function is defined but never used, constituting dead code.",
+                            "severity": "LOW"
+                        },
+                        {
+                            "file": "a.py",
+                            "type": "DESIGN",
+                            "description": "Module 'b' is imported but not used.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "a.py",
+                            "actions": [
+                                "Add type hints or validation in func_a to ensure x is numeric before performing addition",
+                                "Remove the unused_function as it serves no purpose",
+                                "Remove the unused import of module 'b'"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "5aa0183a-db90-439e-bfe2-c29087cabe4e",
+        "timestamp": "2026-01-15T19:17:25.977425",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code is a simple function that returns a static string. It is correct and safe but lacks testability due to its implicit dependency on the file name.",
+                    "issues": [
+                        {
+                            "file": "b.py",
+                            "type": "TEST",
+                            "description": "The function embeds the file name in the return string, creating an implicit dependency that makes testing harder if the file is renamed.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "b.py",
+                            "actions": [
+                                "Consider making the file name or message configurable to improve testability and reduce implicit dependencies."
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "d4b775cf-7b13-49e9-b865-556123eb8863",
+        "timestamp": "2026-01-15T19:17:27.167640",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\c.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "No code provided for analysis",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "aab16412-d840-4514-8770-250646090cf2",
+        "timestamp": "2026-01-15T19:17:30.250424",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\smthg.py",
+                "status": "FAIL",
+                "issues": [
+                    "Syntax error: unable to parse file",
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "HIGH",
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code contains syntax errors and an incomplete function implementation. The function name is misspelled and the return statement is incorrect.",
+                    "issues": [
+                        {
+                            "file": "code.py",
+                            "type": "BUG",
+                            "description": "Function definition has a typo: 'de' instead of 'def'",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "code.py",
+                            "type": "BUG",
+                            "description": "Return statement has a typo: 'rurn' instead of 'return'",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "code.py",
+                            "type": "BUG",
+                            "description": "Function does not perform addition operation - it only returns the first parameter",
+                            "severity": "HIGH"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "code.py",
+                            "actions": [
+                                "Fix function definition keyword from 'de' to 'def'",
+                                "Fix return statement keyword from 'rurn' to 'return'",
+                                "Implement proper addition logic: return a + b"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "ffda0cfd-ff92-48ea-9b5c-42fe47b09738",
+        "timestamp": "2026-01-15T19:17:33.446389",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_a.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct but lacks comprehensive coverage. The main issue is that it only tests one specific input case for func_a, which limits the ability to detect edge cases or incorrect behavior for other inputs.",
+                    "issues": [
+                        {
+                            "file": "test_a.py",
+                            "type": "TEST",
+                            "description": "Test coverage is insufficient - only tests func_a with input 2. Missing edge cases like negative numbers, zero, and non-integer inputs.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_a.py",
+                            "actions": [
+                                "Add test cases for edge cases including zero, negative numbers, and invalid input types",
+                                "Consider adding parametrized tests to validate multiple input-output combinations",
+                                "Add tests for potential error conditions if func_a should handle invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "e3bb5c22-597c-4383-8a85-5943483c74dc",
+        "timestamp": "2026-01-15T19:17:36.532484",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_b.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct but lacks comprehensive coverage. The main issue is that it only tests one input case for func_b, which limits confidence in the function's correctness.",
+                    "issues": [
+                        {
+                            "file": "test_b.py",
+                            "type": "TEST",
+                            "description": "Insufficient test coverage - only testing one input value (2) for func_b. This doesn't verify behavior for edge cases, negative numbers, zero, or non-integer inputs.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_b.py",
+                            "actions": [
+                                "Add test cases for edge cases including zero, negative numbers, and boundary values",
+                                "Consider adding parameterized tests to validate multiple input-output combinations",
+                                "Add tests for potential error conditions if func_b should handle invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "591b592d-6bb2-41ea-8839-6d876608270b",
+        "timestamp": "2026-01-15T19:17:40.072581",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_c.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file has a dependency on an external function and lacks comprehensive test coverage.",
+                    "issues": [
+                        {
+                            "file": "test_c.py",
+                            "type": "TEST",
+                            "description": "Test depends on external function implementation (func_a) without explicit testing of func_c's behavior. Comment indicates prerequisite fixes but doesn't verify them.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "test_c.py",
+                            "type": "TEST",
+                            "description": "Only one test case provided with single input value. Lacks edge cases, boundary conditions, and error condition tests.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_c.py",
+                            "actions": [
+                                "Add explicit assertions or mocks to verify func_c behavior independently of func_a implementation",
+                                "Add test cases for edge cases, boundary values, and error conditions",
+                                "Remove or resolve the implicit dependency on external function fixes mentioned in comments"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "916ffe83-c0c4-4cf5-ae6f-01db240d994e",
+        "timestamp": "2026-01-15T19:17:43.180642",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\test_smthg.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The test file appears correct and covers basic functionality of the add_numbers function. However, there are some testability concerns regarding edge cases and input validation that should be addressed.",
+                    "issues": [
+                        {
+                            "file": "test_smthg.py",
+                            "type": "TEST",
+                            "description": "Missing test cases for floating point numbers, large integers, and type validation",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "test_smthg.py",
+                            "type": "TEST",
+                            "description": "No tests for potential error conditions or invalid input types",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "test_smthg.py",
+                            "actions": [
+                                "Add test cases for floating point number addition",
+                                "Include tests for large integer values to check for overflow handling",
+                                "Add tests for type validation (e.g., string inputs, None values)",
+                                "Consider adding boundary value tests for maximum/minimum integer values",
+                                "Add negative test cases to verify appropriate error handling for invalid inputs"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "fbb59b20-3742-4b6d-9422-797d54cec546",
+        "timestamp": "2026-01-15T19:17:53.511525",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\analysis_tools.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code provides utilities to run pylint and pytest with basic sandboxing. Key issues include lack of input sanitization, potential command injection risks, and insufficient error handling for security-sensitive operations.",
+                    "issues": [
+                        {
+                            "file": "src/tools/runner.py",
+                            "type": "SECURITY",
+                            "description": "The `_run_command` function executes shell commands using `subprocess.run` with `shell=False`, which is good, but the inputs to the command are not sanitized. This could lead to command injection if the inputs are not properly validated.",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "src/tools/runner.py",
+                            "type": "DESIGN",
+                            "description": "The `run_pylint` function only enforces sandbox safety when the target is a file, but not when it's a directory. This inconsistency could lead to unintended access to files outside the sandbox.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "src/tools/runner.py",
+                            "type": "TEST",
+                            "description": "The functions `run_pylint` and `run_pytest` are difficult to test in isolation due to their direct dependency on external tools (pylint, pytest) and file system operations. This reduces testability and increases the risk of integration issues.",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "src/tools/runner.py",
+                            "actions": [
+                                "Sanitize and validate all inputs to `_run_command` to prevent command injection.",
+                                "Ensure sandbox enforcement is applied consistently in both `run_pylint` and `run_pytest`, regardless of whether the target is a file or directory.",
+                                "Introduce abstraction layers or mocks for external tools (pylint, pytest) to improve testability."
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "93755685-af71-45f3-8d43-7c0cff23bf03",
+        "timestamp": "2026-01-15T19:17:54.915011",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\cli_tools.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "No code provided for analysis",
+                    "issues": [],
+                    "refactoring_plan": []
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "41998685-5905-4275-ba15-aedca03f88e7",
+        "timestamp": "2026-01-15T19:18:01.113734",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\file_tools.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code presents several correctness and security concerns. Key issues include potential sandbox escape in `write_file`, unsafe file reading with broad exception handling, lack of validation in `compile_auditor_prompt`, and missing error handling for critical operations like file backups.",
+                    "issues": [
+                        {
+                            "file": "src/tools/auditor.py",
+                            "type": "SECURITY",
+                            "description": "`ensure_in_sandbox` is called after `backup_file`, which may allow unauthorized file access before sandbox validation.",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "src/tools/auditor.py",
+                            "type": "BUG",
+                            "description": "`read_file` uses a broad `except Exception` clause, potentially masking unexpected errors and making debugging difficult.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "src/tools/auditor.py",
+                            "type": "DESIGN",
+                            "description": "`compile_auditor_prompt` does not validate existence of required prompt files before reading them, risking unhandled exceptions.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "src/tools/auditor.py",
+                            "type": "TEST",
+                            "description": "Functions like `list_python_files`, `backup_file`, and `write_file` have side effects (filesystem operations) without clear isolation mechanisms, making unit testing difficult.",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "src/tools/auditor.py",
+                            "type": "BUG",
+                            "description": "`backup_file` silently fails if the target file doesn't exist, which might mask logic errors.",
+                            "severity": "LOW"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "src/tools/auditor.py",
+                            "actions": [
+                                "Move `ensure_in_sandbox` call in `write_file` to the beginning of the function to prevent unauthorized operations.",
+                                "Replace broad `except Exception` in `read_file` with specific encoding-related exceptions like `UnicodeDecodeError`.",
+                                "Add checks in `compile_auditor_prompt` to verify existence of `auditor_prompt_part1.txt` and `auditor_prompt_part2.txt` before reading.",
+                                "Introduce dependency injection or mocking hooks for filesystem operations (`shutil.copy`, `Path.write_text`) to improve testability.",
+                                "Make `backup_file` behavior explicit by either requiring file existence or documenting optional behavior."
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
+    },
+    {
+        "id": "f305f063-b891-4e27-ad9a-67aceb56eafb",
+        "timestamp": "2026-01-15T19:18:05.425981",
+        "agent": "AuditorAgent",
+        "model": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "input_prompt": "You are the AUDITOR agent in a multi-agent refactoring system.\n\nYour mission:\n- Analyze the provided Python code.\n- Detect bugs, bad practices that could affect correctness, runtime errors, security risks, or testability issues.\n- DO NOT modify the code.\n- Produce a clear and structured refactoring plan.\n\nRules:\n- You are NOT allowed to write or modify files.\n- Only analyze and propose improvements that are relevant to code safety, correctness, or testability.\n- Ignore docstring style, formatting, naming conventions, or other stylistic choices.\n- If the code is correct, leave issues empty.\n- Be precise, concise, and technical.\n- Do NOT hallucinate libraries or files that do not exist.\n- Ignore low-risk testability issues for simple functions or I/O helpers.\n\n\nOutput format (STRICT JSON):\n{\n  \"summary\": \"Global assessment of the code quality\",\n  \"issues\": [\n    {\n      \"file\": \"file_name.py\",\n      \"type\": \"BUG | DESIGN | TEST | SECURITY\",\n      \"description\": \"What is wrong\",\n      \"severity\": \"LOW | MEDIUM | HIGH\"\n    }\n  ],\n  \"refactoring_plan\": [\n    {\n      \"file\": \"file_name.py\",\n      \"actions\": [\n        \"action 1\",\n        \"action 2\"\n      ]\n    }\n  ]\n}\n\nAnalyze the following code:\n----------------------------\n{CODE}\n----------------------------\n",
+            "output_response": {
+                "file": "sandbox\\tools\\security.py",
+                "status": "WARN",
+                "issues": [
+                    "No logging detected with log_experiment"
+                ],
+                "severity": [
+                    "MEDIUM"
+                ],
+                "llm_summary": {
+                    "summary": "The code provides utilities for sandbox path validation. The core logic is sound but has critical security vulnerabilities related to path traversal that could allow bypassing sandbox restrictions. The test suite is basic but covers main cases.",
+                    "issues": [
+                        {
+                            "file": "security.py",
+                            "type": "SECURITY",
+                            "description": "Path traversal vulnerability: symlinks pointing outside sandbox can bypass validation since resolve() is called before relative_to() check",
+                            "severity": "HIGH"
+                        },
+                        {
+                            "file": "security.py",
+                            "type": "DESIGN",
+                            "description": "get_project_root() makes unsafe assumption about file location (parents[2]) which may fail if module is moved",
+                            "severity": "MEDIUM"
+                        },
+                        {
+                            "file": "security.py",
+                            "type": "TEST",
+                            "description": "Missing test coverage for symlink-based attacks and edge cases like '..' components after sandbox root",
+                            "severity": "MEDIUM"
+                        }
+                    ],
+                    "refactoring_plan": [
+                        {
+                            "file": "security.py",
+                            "actions": [
+                                "Reorder path validation to check relative_to() BEFORE calling resolve() to prevent symlink traversal attacks",
+                                "Add validation that get_project_root() actually returns a valid project directory with required structure",
+                                "Enhance test suite to include symlink attack scenarios and complex path traversal cases"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "status": "REVIEW"
     }
 ]

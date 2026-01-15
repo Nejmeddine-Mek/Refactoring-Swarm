@@ -105,7 +105,7 @@ def main():
         auditor_prompt="src/prompts/auditor_prompt.txt",
         fixer_prompt="src/prompts/fixer_prompt.txt",
         judge_prompt="src/prompts/judge_prompt.txt",
-        files=[str(f) for f in file_names_list],     # list of files to treat, at least 1
+        files=file_names_list,     # list of files to treat, at least 1
         max_iterations = MAX_ITERATIONS
     )
 
