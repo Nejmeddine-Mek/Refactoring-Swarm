@@ -1,6 +1,6 @@
 from pathlib import Path
 import shutil
-from src.depgraph.formatter import formatGraph
+from src.depgraph.formatter import format_dependency_graph
 from src.tools.security import ensure_in_sandbox
 
 
@@ -62,7 +62,7 @@ def compile_auditor_prompt(dependency_graph: str) -> None:
 
     first_static_header = read_file("src/prompts/auditor_prompt_part1.txt")
     second_static_header = read_file("src/prompts/auditor_prompt_part2.txt")
-    formatted_graph = formatGraph(dependency_graph)
+    formatted_graph = format_dependency_graph(dependency_graph)
 
     output_str = output_str = "\n".join([
     first_static_header,

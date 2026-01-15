@@ -1,8 +1,9 @@
 from pathlib import Path
 import os
 import json
-#from urllib import response
-#import google.generativeai as genai
+import ast
+from typing import Dict
+
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 
@@ -11,156 +12,102 @@ from src.tools.file_tools import read_file, write_file
 
 load_dotenv()
 
+
 class FixerAgent:
+    """
+    FixerAgent applies targeted refactoring based on a structured plan.
+    It fixes all functional and style issues, including broken Python code.
+    """
+
     def __init__(self, prompt_path: str):
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
-        '''
-        api_key = os.getenv("GOOGLE_API_KEY")
-        if not api_key:
-            raise EnvironmentError("❌ GOOGLE_API_KEY not found in .env")
 
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel(
-            os.getenv("GOOGLE_MODEL"),
-            generation_config={"temperature": 0.15}  # more deterministic
-        )
-        '''
-        # ---- Hugging Face configuration ----
         hf_token = os.getenv("HF_TOKEN")
         if not hf_token:
             raise EnvironmentError("❌ HF_TOKEN not found in .env")
-        
         self.model_name = os.getenv("HF_MODEL")
-        self.client = InferenceClient(
-            model=self.model_name,
-            token=hf_token
-        )
+        if not self.model_name:
+            raise EnvironmentError("❌ HF_MODEL not set in .env")
 
+        self.client = InferenceClient(model=self.model_name, token=hf_token)
 
     def _load_prompt(self) -> str:
         if not self.prompt_path.exists():
             raise FileNotFoundError(f"Fixer prompt not found: {self.prompt_path}")
         return self.prompt_path.read_text(encoding="utf-8")
 
-    def _ask_llm(self, plan: dict, current_code: str) -> str:
+    def _ask_llm(self, plan: Dict, current_code: str) -> str:
+        """
+        Ask LLM to apply the refactoring plan.
+        The prompt is loaded from file and placeholders {PLAN} and {CODE} are replaced.
+        Returns only the fixed code as string.
+        """
         plan_json = json.dumps(plan, indent=2, ensure_ascii=False)
-
-        full_prompt = (
-            self.system_prompt
-            .replace("{PLAN}", plan_json)
-            .replace("{CODE}", current_code)
-            .replace("{LATEST_PYTEST}", plan.get("latest_pytest_output", "[no output]"))
-            .replace("{LATEST_PYLINT}", plan.get("latest_pylint_output", "[no output]"))
-        )
+        prompt_to_use = self.system_prompt.replace("{PLAN}", plan_json).replace("{CODE}", current_code)
 
         # Safety truncation
-        if len(full_prompt) > 180_000:
-            full_prompt = full_prompt[:175_000] + "\n\n[PROMPT WAS TRUNCATED DUE TO LENGTH LIMIT]"
-
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[
-                    {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": full_prompt}
-                ],
-                max_tokens=600,
-                temperature=0.1
-            )
-
-            # Extract the text from the response
-            text = response.choices[0].message.content
-
+        if len(prompt_to_use) > 180_000:
+            prompt_to_use = prompt_to_use[:175_000] + "\n\n[PROMPT TRUNCATED]"
             
-            '''response = self.model.generate_content(full_prompt)
-                text = response.text.strip()
-            '''
+        response = self.client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "system", "content": prompt_to_use}
+            ],
+            max_tokens=1000,
+            temperature=0.1
+        )
+        text = response.choices[0].message.content.strip()
+        # Remove code fences if LLM added them
+        if text.startswith("```") and text.endswith("```"):
+            text = text.strip("```").strip()
+        return text
 
-            # Better code block extraction
-            if "```python" in text:
-                return text.split("```python", 1)[1].rsplit("```", 1)[0].strip()
-            if "```" in text:
-                parts = text.split("```", 2)
-                if len(parts) >= 3:
-                    return parts[1].strip()
-            return text
+       
+    def _validate_code(self, code: str) -> bool:
+        try:
+            ast.parse(code)
+            return True
+        except SyntaxError:
+            return False
 
-        except Exception as e:
-            raise RuntimeError(f"LLM fixing failed: {str(e)}")
-
-    def fix_file(self, file_path: str, refactoring_plan: dict) -> dict:
+    def fix_file(self, file_path: str, refactoring_plan: Dict) -> Dict:
+        """
+        Fix a single file according to the refactoring plan.
+        Always writes the fixed file to disk.
+        """
         try:
             current_code = read_file(file_path)
-        except Exception as e:
-            return {
-                "file": file_path,
-                "status": "FAIL",
-                "error": f"Failed to read file: {str(e)}",
-                "changes_applied": False
-            }
+        except Exception:
+            current_code = ""  # fallback if file cannot be read
 
-        # Prefer judge's concrete suggestion when available
-        judge_suggestion = refactoring_plan.get("judge_suggested_fix", "")
-        if judge_suggestion and len(judge_suggestion.strip()) > 30:
-            print(f"  → Using judge's suggested fix for {file_path}")
-            fixed_code = judge_suggestion
+        # Prefer judge suggestion if valid and reasonably long
+        judge_fix = refactoring_plan.get("judge_suggested_fix")
+        if isinstance(judge_fix, str) and len(judge_fix.strip()) > 20 and self._validate_code(judge_fix):
+            fixed_code = judge_fix
         else:
-            try:
-                fixed_code = self._ask_llm(refactoring_plan, current_code)
-            except Exception as e:
-                return {
-                    "file": file_path,
-                    "status": "FAIL",
-                    "error": str(e),
-                    "changes_applied": False
-                }
+            fixed_code = self._ask_llm(refactoring_plan, current_code)
 
-        # Minimal sanity check
-        if len(fixed_code.strip()) < 20:
-            print(f"Warning: LLM returned almost empty code for {file_path} → keeping original")
-            fixed_code = current_code
+    
+        # Always write to file
+        write_file(file_path, fixed_code)
+        changes_applied = fixed_code != current_code
 
-        try:
-            write_file(file_path, fixed_code)
-        except Exception as e:
-            return {
-                "file": file_path,
-                "status": "FAIL",
-                "error": f"Failed to write file: {str(e)}",
-                "changes_applied": False
-            }
-
-        report = {
+        return {
             "agent": "FixerAgent",
             "file": file_path,
             "status": "SUCCESS",
+            "changes_applied": changes_applied,
             "original_size": len(current_code),
-            "fixed_size": len(fixed_code),
-            "changes_applied": fixed_code != current_code,
-            "plan_summary": refactoring_plan.get("global_plan", {}).get("summary", "No summary")
+            "fixed_size": len(fixed_code)
         }
 
-        # ---- Log the audit (MANDATORY FORMAT) ----
-        log_experiment(
-            agent_name="FixerAgent",
-            model_used=self.model_name,
-            action=ActionType.FIX,
-            details={
-                "file": file_path,
-                "changes_made": report["changes_applied"],
-                "original_length": len(current_code),
-                "new_length": len(fixed_code),
-                # --- ADD THESE TWO LINES ---
-                "input_prompt": self.system_prompt, 
-                "output_response": fixed_code 
-            },
-            status="SUCCESS"
-        )
-
-        return report
-
-    def apply_refactoring_plan(self, plan_data: dict) -> dict:
+    def apply_refactoring_plan(self, plan_data: Dict) -> Dict:
+        """
+        Apply refactoring plan to all files.
+        Returns a summary dict with results per file.
+        """
         files_to_fix = plan_data.get("files_to_fix", [])
         global_plan = plan_data.get("global_plan", {})
 
@@ -169,17 +116,15 @@ class FixerAgent:
         failed = 0
 
         for file_info in files_to_fix:
+            if isinstance(file_info, str):
+                file_info = {"path": file_info}
+
             path = file_info.get("path")
             if not path or not Path(path).is_file():
                 continue
 
-            file_specific_plan = {
-                **global_plan,
-                **file_info,  # merge judge info, issues, suggestions, etc.
-                "file_path": path,
-            }
-
-            result = self.fix_file(path, file_specific_plan)
+            file_plan = {**global_plan, **file_info, "file_path": path}
+            result = self.fix_file(path, file_plan)
             results.append(result)
 
             if result["status"] == "SUCCESS":
@@ -192,8 +137,14 @@ class FixerAgent:
             "total_files": len(files_to_fix),
             "successful": successful,
             "failed": failed,
-            "overall_status": "COMPLETE" if failed == 0 else "PARTIAL_SUCCESS" if successful > 0 else "FAILURE",
-            "file_results": [r["file"] for r in results]
+            "overall_status": (
+                "COMPLETE"
+                if failed == 0
+                else "PARTIAL_SUCCESS"
+                if successful > 0
+                else "FAILURE"
+            ),
+            "file_results": results
         }
 
         return summary

@@ -4,7 +4,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from src.utils.logger import log_experiment, ActionType
-from src.depgraph.depgraph import createDepGraph
 
 # Toolsmith helpers
 from src.tools.cli_tools import parse_args, prepare_payloads
@@ -24,7 +23,7 @@ load_dotenv()
 def main():
     global MAX_SIZE, MAX_ITERATIONS
     MAX_SIZE = 50 * 1024  # default maximum size of a file
-    MAX_ITERATIONS = 5    # default maximum number of iterations
+    MAX_ITERATIONS = 10    # default maximum number of iterations
     file_names_list = []
    
     args = parse_args()
@@ -93,15 +92,24 @@ def main():
         #print(file_names_list)
         # now, all the files should be grouped in the file_names_list. we can proceed
     # create a dependency graph grouping files that depend on each other in an adjacency list for the next steps
-    dependency_graph = createDepGraph(file_names_list)
+    #dependency_graph = createDepGraph(file_names_list)
     #print(formatGraph(dependency_graph))
-    compile_auditor_prompt(dependency_graph)
+    #compile_auditor_prompt(dependency_graph)
     # now the main work starts
     print("\n" + "=" * 70)
     print("   Starting real Refactoring Pipeline   ".center(70))
     print("=" * 70 + "\n")
+    
+    result = run_refactoring_pipeline(
+        target_dir=args.dir if args.dir else str(Path(args.file).parent),
+        auditor_prompt="src/prompts/auditor_prompt.txt",
+        fixer_prompt="src/prompts/fixer_prompt.txt",
+        judge_prompt="src/prompts/judge_prompt.txt",
+        files=[str(f) for f in file_names_list],     # list of files to treat, at least 1
+        max_iterations = MAX_ITERATIONS
+    )
 
-""" 
+"""
     # ── Real pipeline call ───────────────────────────────────────────────
     result = run_refactoring_pipeline(
         target_dir=args.dir if args.dir else str(Path(args.file).parent),
@@ -188,6 +196,3 @@ if __name__ == "__main__":
     
     
 #this is the running command :  python test.py --target_dir sandbox/test_project --max_iterations 3
-#these should be in .env file : 
-'''GOOGLE_API_KEY=AIzaSyBeT2Z1ucmL5n5eZk2v-VjeOezlt_AzQLI
-GOOGLE_MODEL=gemini-2.5-flash'''

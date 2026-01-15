@@ -1,139 +1,162 @@
 from pathlib import Path
 import os
-#from urllib import response
-#import google.generativeai as genai
+import json
+import ast
+from typing import List, Dict
+
 from dotenv import load_dotenv
-from src.utils.logger import log_experiment, ActionType
 from huggingface_hub import InferenceClient
 
+from src.utils.logger import log_experiment, ActionType
+
 load_dotenv()
+
 
 class AuditorAgent:
     def __init__(self, prompt_path: str):
         self.prompt_path = Path(prompt_path)
         self.system_prompt = self._load_prompt()
+
         hf_token = os.getenv("HF_TOKEN")
         if not hf_token:
             raise EnvironmentError("❌ HF_TOKEN not found in .env")
-        
+
         self.model_name = os.getenv("HF_MODEL")
+        if not self.model_name:
+            raise EnvironmentError("❌ HF_MODEL not set in .env")
+
         self.client = InferenceClient(
             model=self.model_name,
             token=hf_token
         )
-        '''
-        # ---- Gemini configuration ----
-        api_key = os.getenv("GOOGLE_API_KEY")
-        if not api_key:
-            raise EnvironmentError("❌ GOOGLE_API_KEY not found in .env")
 
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel(os.getenv("GOOGLE_MODEL"))
-        '''
-    # --------------------------
+    # ─────────────────────────────────────────────────────────────
     # Prompt loader
-    # --------------------------
+    # ─────────────────────────────────────────────────────────────
     def _load_prompt(self) -> str:
         if not self.prompt_path.exists():
             raise FileNotFoundError(f"Auditor prompt not found: {self.prompt_path}")
         return self.prompt_path.read_text(encoding="utf-8")
 
-    # --------------------------
-    # Call Gemini
-    # --------------------------
-    def _ask_llm(self, code: str) -> str:
-       full_prompt = f"""
-   {self.system_prompt}
-   
-   --- CODE TO AUDIT ---
-   {code}
-   """
-       try:
+    # ─────────────────────────────────────────────────────────────
+    # AST-based forbidden call detection
+    # ─────────────────────────────────────────────────────────────
+    def _detect_forbidden_calls(self, code: str) -> List[str]:
+        forbidden_calls = {"eval", "exec", "__import__", "pickle.loads"}
+        issues = []
+
+        try:
+            tree = ast.parse(code)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Call):
+                    func_name = getattr(node.func, "id", None)
+                    if func_name in forbidden_calls:
+                        issues.append(
+                            f"Forbidden call `{func_name}` at line {node.lineno}"
+                        )
+        except SyntaxError:
+            issues.append("Syntax error: unable to parse file")
+
+        return issues
+
+    # ─────────────────────────────────────────────────────────────
+    # LLM semantic audit
+    # ─────────────────────────────────────────────────────────────
+    def _ask_llm(self, code: str) -> Dict:
+
+        try:
             response = self.client.chat.completions.create(
                 model=self.model_name,
                 messages=[
                     {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": full_prompt}
+                    {
+                        "role": "user",
+                        "content": f"Audit the following Python code:\n\n{code}"
+                    }
                 ],
-                max_tokens=1000,
-                temperature=0.1
+                max_tokens=800,
+                temperature=0.1,
             )
-            
-            # Extract the text from the response
-            text = response.choices[0].message.content
-            return text
 
-            '''response = self.model.generate_content(full_prompt)
-            return response.text
-            '''
-       except Exception as e:
-           return f"[LLM unavailable] {str(e)}"
+            raw_text = response.choices[0].message.content
 
+            try:
+                return json.loads(raw_text)
+            except json.JSONDecodeError:
+                return {"raw_feedback": raw_text}
 
-    # --------------------------
-    # Main audit function
-    # --------------------------
-    def audit(self, file_path: str, code: str, require_logging: bool = True) -> dict:
-        issues = []
-        suggestions = []
-    
-        # ---- Basic security checks ----
-        forbidden_keywords = [
-            "os.system",
-            "subprocess",
-            "eval(",
-            "exec(",
-            "pickle.loads",
-            "__import__",
-        ]
-    
-        for keyword in forbidden_keywords:
-            if keyword in code:
-                issues.append(f"Forbidden usage detected: {keyword}")
-                suggestions.append(
-                    f"Remove or replace `{keyword}` with a safe alternative."
-                )
-    
-        # ---- Logging format check (optional) ----
+        except Exception as e:
+            return {"error": f"LLM unavailable: {str(e)}"}
+
+    # ─────────────────────────────────────────────────────────────
+    # Main audit entry point
+    # ─────────────────────────────────────────────────────────────
+    def audit(self, file_path: str, code: str, require_logging: bool = True) -> Dict:
+        issues: List[str] = []
+        suggestions: List[str] = []
+        severity: List[str] = []
+
+        # ── 1. Security checks (HIGH)
+        forbidden_issues = self._detect_forbidden_calls(code)
+        for issue in forbidden_issues:
+            issues.append(issue)
+            suggestions.append("Remove or replace forbidden call with a safe alternative.")
+            severity.append("HIGH")
+
+        # ── 2. Logging policy check (MEDIUM)
         if require_logging and "log_experiment" not in code:
-            issues.append("No logging detected with log_experiment.")
-            suggestions.append(
-                "Add log_experiment calls to track agent actions."
-            )
-    
-        # ---- Encoding / file safety ----
+            issues.append("No logging detected with log_experiment")
+            suggestions.append("Add log_experiment calls to track agent actions")
+            severity.append("MEDIUM")
+
+        # ── 3. Encoding / file safety (HIGH)
         if "\x00" in code:
-            issues.append("Null byte detected in file.")
-            suggestions.append(
-                "Clean file encoding and remove binary content."
-            )
-    
-        # ---- LLM audit ----
+            issues.append("Null byte detected in file")
+            suggestions.append("Clean file encoding and remove binary content")
+            severity.append("HIGH")
+
+        # ── 4. Semantic / architectural LLM review
         llm_feedback = self._ask_llm(code)
-    
-        # ---- Final status ----
-        status = "PASS" if not issues else "FAIL"
-    
+
+        # ── 5. Status resolution (severity-aware)
+        if "HIGH" in severity:
+            status = "FAIL"
+        elif issues:
+            status = "WARN"
+        else:
+            status = "PASS"
+
         report = {
             "agent": "AuditorAgent",
             "file": file_path,
             "status": status,
             "issues": issues,
             "suggestions": suggestions,
+            "severity": severity,
             "llm_feedback": llm_feedback,
         }
-    
-        # ---- Log the audit (MANDATORY FORMAT) ----
+
+        # ── 6. Mandatory logging (AutoCorrect-compatible)
         log_experiment(
             agent_name="AuditorAgent",
             model_used=self.model_name,
             action=ActionType.ANALYSIS,
             details={
                 "input_prompt": self.system_prompt,
-                "output_response": report,
+                "output_response": {
+                    "file": file_path,
+                    "status": status,
+                    "issues": issues,
+                    "severity": severity,
+                    "llm_summary": llm_feedback,
+                },
             },
             status="SUCCESS" if status == "PASS" else "REVIEW",
         )
-    
+
+        # Invariants (defensive)
+        assert isinstance(issues, list)
+        assert isinstance(suggestions, list)
+        assert isinstance(severity, list)
+
         return report
-    
