@@ -29,7 +29,7 @@ def main():
     args = parse_args()
     ignore_files = args.ignore
     
-    if bool(args.dir) == bool(args.file):
+    if bool(args.target_dir) == bool(args.file):
         print("You must exclusively specify a directory or a file")
         sys.exit(1)
     
@@ -60,13 +60,13 @@ def main():
         file_names_list.append(args.file)
     
     # now we check the case of the directory
-    elif bool(args.dir):
-        if not os.path.exists(args.dir):
-            print(f"❌ File {args.dir} is not found.")
+    elif bool(args.target_dir):
+        if not os.path.exists(args.target_dir):
+            print(f"❌ File {args.target_dir} is not found.")
             sys.exit(1)
         
         # the directory exists, we need to get all file names ending in .py
-        dir_path = Path(args.dir)
+        dir_path = Path(args.target_dir)
         # this should work recursively, when you get a directory, you get the subfiles too
         
         for root, dirs, files in os.walk(dir_path):
@@ -101,7 +101,7 @@ def main():
     print("=" * 70 + "\n")
     
     result = run_refactoring_pipeline(
-        target_dir=args.dir if args.dir else str(Path(args.file).parent),
+        target_dir=args.target_dir if args.target_dir else str(Path(args.file).parent),
         auditor_prompt="src/prompts/auditor_prompt.txt",
         fixer_prompt="src/prompts/fixer_prompt.txt",
         judge_prompt="src/prompts/judge_prompt.txt",
